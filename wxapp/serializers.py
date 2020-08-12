@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import User,Item,Order,Prepay_Order,Comments,Captain,FarmUser
-class UserSerializer(serializers.ModelSerializer):
+from .models import AppUser,Item,Order,Prepay_Order,Comments,Captain,FarmUser
+class AppUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = AppUser
         fields = '__all__'
 
 class ItemSerializer(serializers.ModelSerializer):

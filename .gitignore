@@ -1,0 +1,11 @@
+node_modules
+
+*.pyc
+*.png
+*.pic
+*.mp4
+
+/server/migrations/
+/homepage/migrations/
+/wxapp/migrations/
+/server/__pycache__/

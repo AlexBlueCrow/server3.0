@@ -7,13 +7,13 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie,csrf_exempt,csrf_protect
 from server.settings import MEDIA_ROOT,MEDIA_URL
-from .models import AdminUser,VideoFiles,PicFiles,VIMap
+from .models import AdminUser,VideoFiles,PicFiles,VIMap,Key
 import jwt
 from rest_framework_jwt.settings import api_settings
 import csv as csvreader
 from rest_framework.authtoken.models import Token
 from wxapp.views import JSONResponse
-from .serializers import AdminUserSerializer,VideoFilesSerializer,PicFilesSerializer,VIMapSerializer
+from .serializers import AdminUserSerializer,VideoFilesSerializer,PicFilesSerializer,VIMapSerializer,KeySerializer
 from django.utils import timezone
 # Create your views here.
 
@@ -288,15 +288,15 @@ def Farm_API(request):
             logo.name = logo_fname
             identifier = farmname+'-logo'
             try:
-                static= StaticFiles.objects.create(
-                    identifier= identifier,
+                static= PicFiles.objects.create(
+                    name = identifier,
                     pic = logo,
                 )
                 msg = '头像创建成功'
                 fuser.farm_log_address=logo_fname
                 fuser.save()
             except:
-                static = StaticFiles.objects.get(identifier=identifier)
+                static = PicFiles.objects.get(name = identifier)
                 static.pic = logo
                 static.save()
                 msg = '头像更新成功'
@@ -333,4 +333,5 @@ def video_API(request):
         except:
             return JSONResponse({'code':20000,'msg':'上传失败，请尝试重命名视频文件'})
 
-        
+
+

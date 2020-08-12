@@ -8,13 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import User, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, CapManager, FarmUser
-from .serializers import UserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer
-from homepage.models import Keys, VideoFiles, PicFiles, VIMap
+from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser
+from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer
+from homepage.models import Key, VideoFiles, PicFiles, VIMap
 import random
 import time
 import xml.etree.ElementTree as ET
-from server import pay
+from wxapp import pay
 from rest_framework.decorators import api_view, authentication_classes
 from wechatpy.utils import check_signature
 from wechatpy.pay.api import WeChatOrder
@@ -24,7 +24,7 @@ from math import radians, cos, sin, asin, sqrt
 import random
 import string
 from django.core.serializers.json import json
-from homepage.views import getKeys
+from homepage.tools import getKeys
 
 # Create your views here.
 
@@ -46,10 +46,10 @@ def wxlogin(code):
     if 'errcode' in res:
         return HttpResponse(res['errcode'])
     openid = res['openid']
-    user = User.objects.get_or_create(
+    user = AppUser.objects.get_or_create(
         openid=openid,
     )
-    user = User.objects.get(openid=openid)
+    user = AppUser.objects.get(openid=openid)
     return user
 
 
@@ -141,8 +141,8 @@ def get_farmInfo(request):
 def get_userInfo(request):
     code = request.GET.get('code')
     user = wxlogin(code)
-    user_serializer = UserSerializer(user, many=False)
-    return JSONResponse(user_serializer.data)
+    user_serializer = AppUserSerializer(user, many=False)
+    return JSONResponse(AppUser_serializer.data)
 
 
 '''def get_questions(request):
@@ -369,7 +369,7 @@ def pay_feedback(request):
     if (float(prepay_serializer.data['fee'])*100 == float(result['total_fee'])):
         # print('sign=sign&fee=fee')
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
-        user = User.objects.get(openid=prepay_serializer.data['openid'])
+        user = AppUser.objects.get(openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item, many=False)
         new_order = Order.objects.create(
             num=str(prepay_serializer.data['out_trade_no']),
@@ -425,8 +425,8 @@ def updateUser(request):
     nickname = request.GET.get('nickname')
     avatarUrl = request.GET.get('avatarUrl')
     user = wxlogin(code=code)
-    user.user_nickname = nickname
-    user.user_avatar = avatarUrl
+    user.nickname = nickname
+    user.avatar = avatarUrl
     user.save()
 
     return JSONResponse(user.current_captain_id)
@@ -441,8 +441,8 @@ def getCaptains(request):
     for cap in captains:
         item = {}
         item['id'] = cap.captain_id
-        item['nickname'] = cap.user.user_nickname
-        item['avatarUrl'] = cap.user.user_avatar
+        item['nickname'] = cap.user.nickname
+        item['avatarUrl'] = cap.user.avatar
         caps_data.append(item)
         # Rearrange by distance
     Locdic = getCaptainLocs()

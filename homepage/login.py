@@ -8,7 +8,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from .models import StaticFiles,AdminUser
+from .models import AdminUser
 import jwt
 from rest_framework_jwt.settings import api_settings
 from rest_framework.authtoken.models import Token

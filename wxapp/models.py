@@ -9,7 +9,7 @@ import datetime
 # Create your models here.
 
 
-class User(models.Model):
+class AppUser(models.Model):
     openid = models.CharField(
         max_length=50, blank=False, default='', unique=True)
     gender = models.CharField(max_length=10, choices=[(
@@ -24,9 +24,9 @@ class User(models.Model):
     current_captain_id = models.IntegerField(blank=True, default=-1)
 
     def __str__(self):
-        if self.user_nickname == '':
-            return '未授权:'+self.user_openid[0:3]
-        return self.user_nickname
+        if self.nickname == '':
+            return '未授权:'+self.openid[0:3]
+        return self.nickname
 
 
 class FarmUser(models.Model):
@@ -78,7 +78,7 @@ class Captain(models.Model):
         (1, '销售'),
         (2, '配送')
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
     longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     address = models.CharField(max_length=40)
@@ -98,7 +98,7 @@ class Captain(models.Model):
 class Order(models.Model):
 
     num = models.CharField(primary_key=True, unique=True, max_length=25)
-    user = models.ForeignKey(User, on_delete=models.PROTECT, default='')
+    user = models.ForeignKey(AppUser, on_delete=models.PROTECT, default='')
     price_paid = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
     quantity = models.IntegerField(default=1)
@@ -113,10 +113,10 @@ class Order(models.Model):
     num_delivered = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
     message = models.CharField(max_length=400)
-    genre = models.CharField(max_length=10, choices=[('认领', '认领'), ()])
+    genre = models.CharField(max_length=10, choices=[('adopt', 'adopt'), ('sell','sell')])
 
     def __str__(self):
-        return self.user.user_nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'/'+str(self.captain_id)
+        return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'/'+str(self.captain_id)
 
     def farm(self):
         return self.item.owner
@@ -160,7 +160,7 @@ class Comments(models.Model):
     comment_id = models.AutoField(primary_key=True)
     item_id = models.IntegerField(default=0)
     comment_text = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     comment_time = models.DateTimeField(default=timezone.now)
     user_avatar = models.CharField(
         max_length=150, blank=True, default='')  # 头像地址
