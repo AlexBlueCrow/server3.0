@@ -97,7 +97,7 @@ def Item_update(request):
                 farmname = farmname,
                 video = video_file
             )
-            item.video_address = video_file.name
+            item.main_video = video_file.name
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
@@ -145,7 +145,7 @@ def Item_API(request):
             category = category,
             price = price,
             unit = size,
-            video_address = video_file.name,
+            main_video = video_file.name,
             pic_address = pic_file.name,
         )
         created.save()
@@ -194,7 +194,7 @@ def Item_API(request):
                 farmname = farmname,
                 video = video_file
             )
-            item.video_address = video_file.name
+            item.main_video = video_file.name
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
