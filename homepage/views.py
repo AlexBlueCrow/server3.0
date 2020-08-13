@@ -107,7 +107,7 @@ def Item_update(request):
                 farmname = farmname,
                 pic = pic_file
             )
-            item.pic_address = pic_file.name
+            item.main_pic = pic_file.name
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
     else:
@@ -146,7 +146,7 @@ def Item_API(request):
             price = price,
             unit = size,
             main_video = video_file.name,
-            pic_address = pic_file.name,
+            main_pic = pic_file.name,
         )
         created.save()
         return HttpResponse('success')
@@ -204,7 +204,7 @@ def Item_API(request):
                 farmname = farmname,
                 pic = pic_file
             )
-            item.pic_address = pic_file.name
+            item.main_pic = pic_file.name
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
