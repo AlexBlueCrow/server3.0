@@ -5,7 +5,7 @@ node_modules
 *.pic
 *.mp4
 
-/server/migrations/
-/homepage/migrations/
-/wxapp/migrations/
-/server/__pycache__/
+
+/server/__pycache__/∑
+.vscode/
+.DS_Store

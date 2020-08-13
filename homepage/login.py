@@ -31,7 +31,7 @@ def register(request):
             return HttpResponse('农场已创建账号')
     except:
         farm = FarmUser.objects.create(
-            farm_name = farmname
+            name = farmname
         )
     try:
         new = AdminUser.objects.create(
