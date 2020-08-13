@@ -25,7 +25,7 @@ def order(request):
     end=request.GET.get('date2')
     farm_name = request.GET.get('farmname')
     try:
-        orders = Order.objects.filter(effect_time__range=(start,end),farm_name = farm_name)
+        orders = Order.objects.filter(effect_time__range=(start,end),name = farm_name)
         orders_serializer = OrderSerializer(orders,many=True)
         return JSONResponse(orders_serializer.data)
     except:
@@ -38,7 +38,7 @@ def VIMap_update(request):
     links = VIMap.objects.filter(item_id=itemid)
     new_ids = []
     old_ids = []
-    farm = FarmUser.objects.get(farm_name=farmname)
+    farm = FarmUser.objects.get(name=farmname)
     item = Item.object.get(id = itemid)
     for link in links:
         old_ids.append(link.video_id)
@@ -129,13 +129,13 @@ def Item_API(request):
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
         try:
-            farmuser = FarmUser.objects.get(farm_name=farmname)
+            farmuser = FarmUser.objects.get(name=farmname)
         except:
             return HttpResponse('该农场不在系统中，请先创建农场')
         ##rename files with farm_name and item_name
         pic_pf=pic_file.name.split('.')[-1]
         video_pf=video_file.name.split('.')[-1]
-        identifier= farmuser.farm_name+'--'+item_name
+        identifier= farmuser.name+'--'+item_name
         timestamp = str(timezone.now())
         pic_file.name= identifier+timestamp+'.'+pic_pf
         video_file.name= identifier+timestamp+'.'+video_pf
@@ -154,7 +154,7 @@ def Item_API(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
         try:
-            farmuser = FarmUser.objects.get(farm_name=farmname)
+            farmuser = FarmUser.objects.get(name=farmname)
             items = Item.objects.filter(owner = farmuser)
             items_ser = ItemSerializer(items,many=True)
             return JSONResponse({'code':20000,'data':items_ser.data})
@@ -262,7 +262,7 @@ def csv(request):
 def Farm_API(request):
     if request.method=='GET':
         farmname = request.GET.get('farmname')
-        farm_obj = FarmUser.objects.get(farm_name = farmname)
+        farm_obj = FarmUser.objects.get(name = farmname)
         farm_serializer = FarmUserSerializer(farm_obj,many=False)
         return JSONResponse({'code':20000,'data':farm_serializer.data})
     if request.method == 'POST':
@@ -272,7 +272,7 @@ def Farm_API(request):
         phonenum = request.POST.get('phonenum')
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
-        fuser = FarmUser.objects.get(farm_name=farmname)
+        fuser = FarmUser.objects.get(name=farmname)
         fuser.farm_address = address
         fuser.farm_description = description
         fuser.farm_phonenumber = phonenum
@@ -308,7 +308,7 @@ def Farm_API(request):
 def video_API(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
-        farm_obj = FarmUser.objects.get(farm_name = farmname)
+        farm_obj = FarmUser.objects.get(name = farmname)
         try:
             videos = VideoFiles.objects.filter(farmname = farmname)
             videos_serializer = VideoFilesSerializer(videos,many = True)

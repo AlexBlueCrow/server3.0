@@ -124,7 +124,7 @@ def get_orderInfo(request):
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
             order['item_name'] = item.item_name
-            order['farm_name'] = item.owner.farm_name
+            order['farm_name'] = item.owner.name
             order['effect_time'] = order['effect_time'][0:10]
         return JSONResponse(orders_serializer.data)
     else:
@@ -374,7 +374,7 @@ def pay_feedback(request):
         new_order = Order.objects.create(
             num=str(prepay_serializer.data['out_trade_no']),
             item=item,
-            farm_name=item.owner.farm_name,
+            farm_name=item.owner.name,
             user=user,
             deliver_address=prepay_serializer.data['deliver_address'],
             price_paid=prepay_serializer.data['fee'],
