@@ -275,13 +275,13 @@ def Farm_API(request):
         farmname = request.POST.get('farmname')
         address = request.POST.get('address')
         description = request.POST.get('description')
-        phonenum = request.POST.get('phonenum')
+        phonenumer = request.POST.get('phonenumer')
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
         fuser = FarmUser.objects.get(name=farmname)
         fuser.address = address
         fuser.description = description
-        fuser.phonenumber = phonenum
+        fuser.phonenumber = phonenumer
         fuser.contact = contact
         fuser.type = farm_type
         fuser.save()
