@@ -60,7 +60,7 @@ class Item(models.Model):
     effect_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.id)+self.item_name+'--'+str(self.item_price)+'/'+self.unit
+        return str(self.id)+self.name+'--'+str(self.price)+'/'+self.unit
 
     def deactivate(self):
         self.status = 1
