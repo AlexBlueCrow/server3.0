@@ -79,7 +79,7 @@ def Item_update(request):
         pic_file = request.FILES.get('pic')
         is_active = request.POST.get('active')
         mode = request.POST.get('mode')
-        print(is_active,mode)
+        
         #stock and mode to be added
 
         item = Item.objects.get(id=item_id)
@@ -279,11 +279,11 @@ def Farm_API(request):
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
         fuser = FarmUser.objects.get(name=farmname)
-        fuser.farm_address = address
-        fuser.farm_description = description
-        fuser.farm_phonenumber = phonenum
-        fuser.farm_contact = contact
-        fuser.farm_type = farm_type
+        fuser.address = address
+        fuser.description = description
+        fuser.phonenumber = phonenum
+        fuser.contact = contact
+        fuser.type = farm_type
         fuser.save()
         msg1='info_update_success'
         logo = request.FILES.get('logo')
@@ -299,14 +299,14 @@ def Farm_API(request):
                     pic = logo,
                 )
                 msg = '头像创建成功'
-                fuser.farm_log_address=logo_fname
+                fuser.logo=logo_fname
                 fuser.save()
             except:
                 static = PicFiles.objects.get(name = identifier)
                 static.pic = logo
                 static.save()
                 msg = '头像更新成功'
-                fuser.farm_logo_address=logo.name
+                fuser.logo=logo.name
                 fuser.save()    
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
 
