@@ -9,4 +9,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'zxserver/',include('wxapp.urls')),
     url(r'api/',include(api_urls)), 
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 ]
