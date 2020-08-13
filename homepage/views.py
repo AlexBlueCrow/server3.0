@@ -87,7 +87,7 @@ def Item_update(request):
         item.category = category
         item.item_price = price
         item.unit = size
-        item.active = is_active
+        item.status = is_active
         item.save()
         item.mode = mode
         #
@@ -131,6 +131,7 @@ def Item_API(request):
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
         mode  = request.POST.get('mode')
+        status = request.POST.get('active')
         try:
             farmuser = FarmUser.objects.get(name=farmname)
         except:
@@ -150,7 +151,8 @@ def Item_API(request):
             unit = size,
             main_video = video_file.name,
             main_pic = pic_file.name,
-            mode = mode
+            mode = mode,
+            status = status
         )
         created.save()
         return HttpResponse('success')
