@@ -7,6 +7,6 @@ from homepage import urls as api_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'wxapp/',include('wxapp.urls')),
+    url(r'zxserver/',include('wxapp.urls')),
     url(r'api/',include(api_urls)), 
 ]
