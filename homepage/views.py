@@ -79,7 +79,7 @@ def Item_update(request):
         pic_file = request.FILES.get('pic')
         is_active = request.POST.get('active')
         mode = request.POST.get('mode')
-        
+        print(is_active,mode)
         #stock and mode to be added
 
         item = Item.objects.get(id=item_id)
