@@ -78,6 +78,7 @@ def Item_update(request):
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
         is_active = request.POST.get('active')
+        mode = request.POST.get('mode')
         
         #stock and mode to be added
 
@@ -88,6 +89,7 @@ def Item_update(request):
         item.unit = size
         item.active = is_active
         item.save()
+        item.mode = mode
         #
         if video_file:
             video_pf=video_file.name.split('.')[-1]
@@ -128,6 +130,7 @@ def Item_API(request):
         price = request.POST.get('price')
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
+        mode  = request.POST.get('mode')
         try:
             farmuser = FarmUser.objects.get(name=farmname)
         except:
@@ -147,6 +150,7 @@ def Item_API(request):
             unit = size,
             main_video = video_file.name,
             main_pic = pic_file.name,
+            mode = mode
         )
         created.save()
         return HttpResponse('success')
