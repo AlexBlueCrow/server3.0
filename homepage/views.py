@@ -316,7 +316,7 @@ def video_API(request):
         farmname = request.GET.get('farmname')
         farm_obj = FarmUser.objects.get(name = farmname)
         try:
-            videos = VideoFiles.objects.filter(farmname = farmname)
+            videos = VideoFiles.objects.filter(farmid = farm_obj.id)
             videos_serializer = VideoFilesSerializer(videos,many = True)
             return JSONResponse({'code':20000,'msg':'请求成功','data':videos_serializer.data})
         except:
@@ -324,6 +324,7 @@ def video_API(request):
 
     if request.method == 'POST':
         farmname = request.POST.get('farmname')
+        farm_obj = FarmUser.objects.get(name = farmname)
         desc = request.POST.get('desc')
         video = request.FILES.get('video')
         cover = request.FILES.get('cover')
@@ -331,9 +332,8 @@ def video_API(request):
         try:
             new  = VideoFiles.objects.create(
                 name = name,
-
                 description = desc,
-                farmname = farmname,
+                farmid = farm_obj.id,
                 video = video,
                 cover = cover,
             )
