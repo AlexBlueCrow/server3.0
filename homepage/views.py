@@ -143,7 +143,7 @@ def Item_API(request):
             name=item_name,
             owner = farmuser,
             category = category,
-            item_price = price,
+            price = price,
             unit = size,
             video_address = video_file.name,
             pic_address = pic_file.name,
@@ -183,7 +183,7 @@ def Item_API(request):
         item = Item.objects.get(id=item_id)
         item.name = item_name
         item.category = category
-        item.item_price = price
+        item.price = price
         item.unit = size
         item.save()
         if video_file:
