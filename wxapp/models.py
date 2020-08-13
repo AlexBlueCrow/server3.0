@@ -44,11 +44,11 @@ class FarmUser(models.Model):
 
 class Item(models.Model):
     # id ++
-    states = [(0, 'active'), (1, 'inactive'), (2, 'expire')]
+    states = [(0, 'inactive'), (1, 'active'), (2, 'expire')]
     modes = [(0,'all'),(1,'foster'),(2,'selling')]
     name = models.CharField(max_length=100, blank=False, default='')
     owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
-    category = models.CharField(max_length=100, blank=False, default='')
+    category = models.CharField(max_length=100, blank=False, default=∑'')
     main_video = models.CharField(max_length=200)  # video filename
     main_pic = models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
