@@ -82,7 +82,7 @@ def Item_update(request):
         #stock and mode to be added
 
         item = Item.objects.get(id=item_id)
-        item.item_name = item_name
+        item.name = item_name
         item.category = category
         item.item_price = price
         item.unit = size
@@ -140,7 +140,7 @@ def Item_API(request):
         pic_file.name= identifier+timestamp+'.'+pic_pf
         video_file.name= identifier+timestamp+'.'+video_pf
         created = Item.objects.create(
-            item_name=item_name,
+            name=item_name,
             owner = farmuser,
             category = category,
             item_price = price,
@@ -181,7 +181,7 @@ def Item_API(request):
         
         
         item = Item.objects.get(id=item_id)
-        item.item_name = item_name
+        item.name = item_name
         item.category = category
         item.item_price = price
         item.unit = size
