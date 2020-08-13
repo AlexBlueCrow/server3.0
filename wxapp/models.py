@@ -48,7 +48,7 @@ class Item(models.Model):
     modes = [(0,'all'),(1,'foster'),(2,'selling')]
     name = models.CharField(max_length=100, blank=False, default='')
     owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
-    category = models.CharField(max_length=100, blank=False, default=∑'')
+    category = models.CharField(max_length=100, blank=False, default='')
     main_video = models.CharField(max_length=200)  # video filename
     main_pic = models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
