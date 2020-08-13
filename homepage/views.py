@@ -329,6 +329,10 @@ def video_API(request):
         video = request.FILES.get('video')
         cover = request.FILES.get('cover')
         name = request.POST.get('name')
+        print('farmname',farmname)
+        print('video',video)
+        print('cover',cover)
+        print('name ',name )
         try:
             new  = VideoFiles.objects.create(
                 name = name,
@@ -340,6 +344,7 @@ def video_API(request):
             new.save()
             return JSONResponse({'code':20000,'msg':'上传成功'})
         except:
+
             return JSONResponse({'code':20000,'msg':'上传失败，请尝试重命名视频文件'})
 
 
