@@ -326,13 +326,16 @@ def video_API(request):
         farmname = request.POST.get('farmname')
         desc = request.POST.get('desc')
         video = request.FILES.get('video')
+        cover = request.FILES.get('cover')
         name = request.POST.get('name')
         try:
             new  = VideoFiles.objects.create(
                 name = name,
+
                 description = desc,
                 farmname = farmname,
                 video = video,
+                cover = cover,
             )
             new.save()
             return JSONResponse({'code':20000,'msg':'上传成功'})
