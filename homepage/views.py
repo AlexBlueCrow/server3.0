@@ -132,6 +132,7 @@ def Item_API(request):
         farmname = request.POST.get('farmname')
         mode  = request.POST.get('mode')
         status = request.POST.get('active')
+        print(mode,status)
         try:
             farmuser = FarmUser.objects.get(name=farmname)
         except:
