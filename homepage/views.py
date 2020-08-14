@@ -162,8 +162,8 @@ def Item_API(request):
             category = category,
             price = price,
             unit = size,
-            video_address = video_file.name,
-            pic_address= pic_file.name,
+            video_address = video_file.name.replace('+',''),
+            pic_address= pic_file.name.replace('+',''),
             mode = mode,
             status = status
         )
