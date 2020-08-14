@@ -141,7 +141,7 @@ def Item_API(request):
         pic_pf=pic_file.name.split('.')[-1]
         video_pf=video_file.name.split('.')[-1]
         identifier= farmuser.name+'--'+item_name
-        timestamp = str(timezone.now()).replace(':', '')
+        timestamp = str(timezone.now()).replace(':', '').replace(' ','_')
         pic_file.name= identifier+timestamp+'.'+pic_pf
         video_file.name= identifier+timestamp+'.'+video_pf
         new_video = VideoFiles.objects.create(
