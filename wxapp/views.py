@@ -11,6 +11,7 @@ from rest_framework import status
 from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser
 from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer
 from homepage.models import Key, VideoFiles, PicFiles, VIMap
+from homepage.serializers import VIMapSerializer
 import random
 import time
 import xml.etree.ElementTree as ET
@@ -77,6 +78,14 @@ def get_item(request):
                 break
         item['dis'] = round(getDistance(userlon, userlat, farmLon, farmLat), 2)
     sorteddata = sorted(items_serializer.data, key=lambda x: x['dis'])
+    for item in sorteddata:
+        item['ex_videos'] = []
+        links = VIMap.objects.filter(item_id=item['id'])
+        for link in links:
+            video = VideoFiles.objects.get(id=link.video_id)
+            print(video.video.name())
+            item['ex_videos'].append(video.video.name())
+        print(item)
     return JSONResponse(sorteddata)
 
 
@@ -475,7 +484,7 @@ def cap_apply(request):
             name=name,
             dis_name=dis_name,
             active=True,
-            genre = 0
+            genre=0
         )
         user.current_captain_id = newcap.captain_id
         user.save()

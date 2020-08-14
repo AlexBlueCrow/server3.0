@@ -36,3 +36,8 @@ class KeySerializer(serializers.ModelSerializer):
     class Meta:
         model = Key
         fields = '__all__'
+
+class VIMapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VIMap
+        fields = '__all__'
