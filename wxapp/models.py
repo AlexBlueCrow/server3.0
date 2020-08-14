@@ -49,8 +49,8 @@ class Item(models.Model):
     name = models.CharField(max_length=100, blank=False, default='')
     owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
     category = models.CharField(max_length=100, blank=False, default='')
-    main_video = models.CharField(max_length=200)  # video filename
-    main_pic = models.CharField(max_length=200)  # pic filename
+    video_address = models.CharField(max_length=200)  # video filename
+    pic_address= models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     status = models.IntegerField(choices=states, default=0)
