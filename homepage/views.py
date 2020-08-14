@@ -99,7 +99,7 @@ def Item_update(request):
                 farmname = farmname,
                 video = video_file
             )
-            item.main_video = video_file.name
+            item.video_address = video_file.name
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
@@ -109,7 +109,7 @@ def Item_update(request):
                 farmname = farmname,
                 pic = pic_file
             )
-            item.main_pic = pic_file.name
+            item.pic_address= pic_file.name
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
     else:
@@ -150,8 +150,8 @@ def Item_API(request):
             category = category,
             price = price,
             unit = size,
-            main_video = video_file.name,
-            main_pic = pic_file.name,
+            video_address = video_file.name,
+            pic_address= pic_file.name,
             mode = mode,
             status = status
         )
@@ -201,7 +201,7 @@ def Item_API(request):
                 farmname = farmname,
                 video = video_file
             )
-            item.main_video = video_file.name
+            item.video_address = video_file.name
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
@@ -211,7 +211,7 @@ def Item_API(request):
                 farmname = farmname,
                 pic = pic_file
             )
-            item.main_pic = pic_file.name
+            item.pic_address= pic_file.name
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
