@@ -144,6 +144,18 @@ def Item_API(request):
         timestamp = str(timezone.now())
         pic_file.name= identifier+timestamp+'.'+pic_pf
         video_file.name= identifier+timestamp+'.'+video_pf
+        new_video = VideoFiles.objects.create(
+            name = video_file.name,
+            itemname = item_name,
+            farmid = farmuser.id,
+            video = video_file
+        )
+        new_pic = PicFiles.objects.create(
+            name = pic_file.name,
+            itemname = item_name,
+            farmid = farmuser.id,
+            pic = pic_file
+        )
         created = Item.objects.create(
             name=item_name,
             owner = farmuser,
