@@ -60,7 +60,7 @@ def VIMap_update(request):
                 farm = farm,
                 item_id = itemid,
                 video_id = id,
-                name = item.itme_name+'---'+str(id)
+                name = item.name+'-'+str(id)
             )
     return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
 
