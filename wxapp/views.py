@@ -66,8 +66,12 @@ def get_item(request):
     if request.GET.get('lon') == 'undefined':
         return JSONResponse(items_serializer.data)
     # Rearrange by distance
-    userlon = float(request.GET.get('lon'))
-    userlat = float(request.GET.get('lat'))
+    try:
+        userlon = float(request.GET.get('lon'))
+        userlat = float(request.GET.get('lat'))
+    except:
+        userlon = 120
+        userlat = 30
     Locdic = getFarmLocs()
     for item in items_serializer.data:
         farmid = item['owner']
@@ -84,8 +88,9 @@ def get_item(request):
         for link in links:
             video = VideoFiles.objects.get(id=link.video_id)
             print(video.video.name())
-            item['ex_videos'].append(video.video.name())
+            item['ex_videos'].append(video.video.name())    
         print(item)
+    print('-------data-----',sorteddata)
     return JSONResponse(sorteddata)
 
 
