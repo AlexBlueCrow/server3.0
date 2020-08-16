@@ -39,7 +39,7 @@ def VIMap_update(request):
     new_ids = []
     old_ids = []
     farm = FarmUser.objects.get(name=farmname)
-    item = Item.object.get(id = itemid)
+    item = Item.objects.get(id = itemid)
     for link in links:
         old_ids.append(link.video_id)
     i = 0
