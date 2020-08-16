@@ -63,8 +63,6 @@ def get_farms(request):
 def get_item(request):
     items = Item.objects.filter(status=1)
     items_serializer = ItemSerializer(items, many=True)
-    if request.GET.get('lon') == 'undefined':
-        return JSONResponse(items_serializer.data)
     # Rearrange by distance
     try:
         userlon = float(request.GET.get('lon'))
