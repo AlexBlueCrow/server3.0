@@ -86,8 +86,8 @@ def get_item(request):
         for link in links:
             video = VideoFiles.objects.get(id=link.video_id)
             print('video',video)
-            print('video.name',video.video.name())
-            item['ex_videos'].append(video.video.name())    
+            print('video.name',video.video)
+            item['ex_videos'].append(video.video)    
         
     print('-------data-----',sorteddata)
     return JSONResponse(sorteddata)
