@@ -336,7 +336,7 @@ def video_api(request):
             return JSONResponse({'code':20000,'msg':'无视频','data':''})
 
     if request.method == 'POST':
-        farmname = request.POST.get('farmname')g
+        farmname = request.POST.get('farmname')
         video = request.FILES.get('video')
         cover = request.FILES.get('cover')
         name = request.POST.get('name')
