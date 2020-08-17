@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'getUserInfo/',login.userInfo),
     url(r'farm/',views.Farm_API),
     url(r'Item_update',views.Item_update),
-    url(r'video/',views.video_API),
+    url(r'video/',views.video),
     url(r'VIMap/',views.VIMap_update)
 ]
 

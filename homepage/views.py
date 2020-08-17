@@ -324,7 +324,7 @@ def Farm_API(request):
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
 
 @csrf_exempt
-def video_API(request):
+def video(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
         farm_obj = FarmUser.objects.get(name = farmname)

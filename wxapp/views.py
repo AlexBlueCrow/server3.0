@@ -85,11 +85,11 @@ def get_item(request):
         links = VIMap.objects.filter(item_id=item['id'])
         for link in links:
             video = VideoFiles.objects.get(id=link.video_id)
-            print('video/n',video)
-            print('video.name/n',video.video)
-            item['ex_videos'].append(str(video.video).split("/")[-1])    
-        
-    print('-------data-----',sorteddata)
+            video_file_name = str(video.video).split("/")[-1]
+            cover_file_name = str(video.cover).split("/")[-1]
+            item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name})
+
+    print('-------data-----', sorteddata)
     return JSONResponse(sorteddata)
 
 
