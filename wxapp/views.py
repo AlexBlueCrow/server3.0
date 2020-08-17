@@ -88,7 +88,7 @@ def get_item(request):
             video_file_name = str(video.video).split("/")[-1]
             cover_file_name = str(video.cover).split("/")[-1]
             item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name})
-        print(item['ex_videos'])
+       
     
     return JSONResponse(sorteddata)
 
