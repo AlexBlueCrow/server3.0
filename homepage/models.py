@@ -29,13 +29,11 @@ class Transact(models.Model):
 
 class VideoFiles(models.Model):
     name = models.CharField(max_length = 50 , default = '',blank = True)
-    description = models.CharField(max_length = 50 , default = '')
-    itemname = models.CharField(max_length = 50,default = '',unique = False, blank = True )
     farmid = models.CharField(max_length = 50,default = '',unique = False )
     video = models.FileField(upload_to = 'statics/video/',unique = True )
     cover = models.FileField(upload_to='statics/cover/',unique = False, blank= True)
     def __str__(self):
-        return self.name
+        return self.name+'/'+str(self.farmid)
 
 
 class PicFiles(models.Model):

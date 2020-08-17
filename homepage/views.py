@@ -324,7 +324,7 @@ def Farm_API(request):
         return JSONResponse({'code':20000,'data':{'res':msg1,'msg':msg},})
 
 @csrf_exempt
-def video(request):
+def video_api(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
         farm_obj = FarmUser.objects.get(name = farmname)
@@ -336,17 +336,14 @@ def video(request):
             return JSONResponse({'code':20000,'msg':'无视频','data':''})
 
     if request.method == 'POST':
-        farmname = request.POST.get('farmname')
-        farm_obj = FarmUser.objects.get(name = farmname)
-        desc = request.POST.get('desc')
+        farmname = request.POST.get('farmname')g
         video = request.FILES.get('video')
         cover = request.FILES.get('cover')
         name = request.POST.get('name')
-        
+        farm_obj = FarmUser.objects.get(name = farmname)
         try:
             new  = VideoFiles.objects.create(
                 name = name,
-                description = desc,
                 farmid = farm_obj.id,
                 video = video,
                 cover = cover,
@@ -354,7 +351,6 @@ def video(request):
             new.save()
             return JSONResponse({'code':20000,'msg':'上传成功'})
         except:
-
             return JSONResponse({'code':20000,'msg':'上传失败，请尝试重命名视频文件'})
 
 
