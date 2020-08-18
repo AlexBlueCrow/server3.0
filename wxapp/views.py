@@ -208,7 +208,7 @@ def post_comment(request):
             user=user,
             comment_text=comment_text,
             item_id=item_id,
-            avatar=avatarUrl,
+            user_avatar=avatarUrl,
             user_nickname=nickname,
         )
         created.save()
