@@ -201,14 +201,14 @@ def post_comment(request):
     if r['errcode'] == '87014':
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
-    avatarUrl = user.user_avatar
+    avatarUrl = user.avatar
     nickname = user.user_nickname
     if comment_text:
         created = Comments.objects.create(
             user=user,
             comment_text=comment_text,
             item_id=item_id,
-            user_avatar=avatarUrl,
+            avatar=avatarUrl,
             user_nickname=nickname,
         )
         created.save()
@@ -403,7 +403,7 @@ def pay_feedback(request):
             user=user,
             comment_text='我刚刚买了'+item.item_name+'!',
             item_id=item.item_id,
-            user_avatar=user.user_avatar,
+            user_avatar=user.avatar,
             user_nickname=user.user_nickname,
             genre=2,
         )
