@@ -203,7 +203,7 @@ def comment_post(request):
         SensCheckUrl, data=json.dumps(data,ensure_ascii=False).encode()).content)
 
    
-    if r['errcode'] == '87014':
+    if r['errcode'] == 87014:
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
     avatarUrl = user.avatar
