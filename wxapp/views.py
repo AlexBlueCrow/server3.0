@@ -107,7 +107,7 @@ def getCaptainLocs():
     captains = Captain.objects.all()
     dic = []
     for cap in captains:
-        Locinfo = {'id': cap.captain_id, 'name': cap.name,
+        Locinfo = {'id': cap.id, 'name': cap.name,
                    'loc': {'lon': cap.longitude, 'lat': cap.latitude}}
         dic.append(Locinfo)
     return dic
@@ -453,7 +453,7 @@ def getCaptains(request):
     caps_data = []
     for cap in captains:
         item = {}
-        item['id'] = cap.captain_id
+        item['id'] = cap.id
         item['nickname'] = cap.user.nickname
         item['avatarUrl'] = cap.user.avatar
         caps_data.append(item)
