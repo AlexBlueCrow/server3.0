@@ -202,7 +202,7 @@ def post_comment(request):
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
     avatarUrl = user.avatar
-    nickname = user.user_nickname
+    nickname = user.nickname
     if comment_text:
         created = Comments.objects.create(
             user=user,
@@ -404,7 +404,7 @@ def pay_feedback(request):
             comment_text='我刚刚买了'+item.item_name+'!',
             item_id=item.item_id,
             user_avatar=user.avatar,
-            user_nickname=user.user_nickname,
+            user_nickname=user.nickname,
             genre=2,
         )
 
@@ -453,7 +453,7 @@ def getCaptains(request):
     caps_data = []
     for cap in captains:
         item = {}
-        item['id'] = cap.id
+        item['id'] = cap.captain_id
         item['nickname'] = cap.user.nickname
         item['avatarUrl'] = cap.user.avatar
         caps_data.append(item)
