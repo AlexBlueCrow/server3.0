@@ -200,7 +200,7 @@ def comment_post(request):
     # data_json = json.dumps(data,ensure_ascii=True)
     # data = json.loads(data_json,encoding='utf-8')
     r = json.loads(requests.post(
-        SensCheckUrl, data=json.dumps(data).encode('encode')).content)
+        SensCheckUrl, data=json.dumps(data).encode('utf-8')).content)
 
     print('---r----',r)
     if r['errcode'] == '87014':
