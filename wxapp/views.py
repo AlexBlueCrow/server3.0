@@ -198,6 +198,7 @@ def post_comment(request):
     data = {'content': comment_text}
     r = json.loads(requests.post(
         SensCheckUrl, data=json.dumps(data).encode()).content)
+    print(r)
     if r['errcode'] == '87014':
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
