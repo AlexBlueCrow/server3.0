@@ -87,7 +87,7 @@ def get_item(request):
             video = VideoFiles.objects.get(id=link.video_id)
             video_file_name = str(video.video).split("/")[-1]
             cover_file_name = str(video.cover).split("/")[-1]
-            item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name})
+            item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name,'name':video.name})
        
     
     return JSONResponse(sorteddata)
@@ -196,6 +196,7 @@ def comment_post(request):
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content': comment_text}
+    print(data)
     r = json.loads(requests.post(
         SensCheckUrl, data=json.dumps(data).encode()).content)
     print('---r----',r)
