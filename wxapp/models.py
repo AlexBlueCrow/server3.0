@@ -82,17 +82,17 @@ class Captain(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     address = models.CharField(max_length=40)
-    phonenumber = models.BigIntegerField(blank=True, default=0)
+    phonenumber = models.BigIntegerField(blank=False, default=0)
     name = models.CharField(max_length=20, default='', blank=True)
     active = models.BooleanField(default=False)
     dis_name = models.CharField(max_length=20, default='', blank=True)
     time_of_join = models.DateTimeField(default=timezone.now)
     genre = models.IntegerField(choices=genres, default=0)
-    commission_m = models.DecimalField(max_digits=2, decimal_places=2)
-    commission_d = models.DecimalField(max_digits=2, decimal_places=2)
+    commission_m = models.DecimalField(max_digits=2, decimal_places=2,default=0)
+    commission_d = models.DecimalField(max_digits=2, decimal_places=2,default=0)
 
     def __str__(self):
-        return self.name
+        return self.name+'/'+self.dis_name
 
 
 class Order(models.Model):
