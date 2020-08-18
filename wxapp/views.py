@@ -196,10 +196,10 @@ def comment_post(request):
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content': comment_text}
-    print(data)
+    data_json = json.dumps(data, ensure_ascii=False, encoding='utf-8')
     r = json.loads(requests.post(
-        SensCheckUrl, data=json.dumps(data).encode()).content)
-    print('---r----',r)
+        SensCheckUrl, data=data_json.content))
+    print('---r----',r,'data',data_json.content)
     if r['errcode'] == '87014':
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
