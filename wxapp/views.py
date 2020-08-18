@@ -477,9 +477,8 @@ def cap_apply(request):
     latitude = request.GET.get('lat')
     dis_name = request.GET.get('disName')
     user = wxlogin(code)
-
-    try:
-        newcap = Captain.objects.create(
+    # try:
+    newcap = Captain.objects.create(
             user=user,
             longitude=longitude,
             latitude=latitude,
@@ -490,11 +489,11 @@ def cap_apply(request):
             active=False,
             genre=0
         )
-        user.current_captain_id = newcap.id
-        user.save()
-        return HttpResponse('success')
-    except:
-        return HttpResponse('fail')
+    user.current_captain_id = newcap.id
+    user.save()
+    return HttpResponse('success')
+    # except:
+    return HttpResponse('fail')
 
 
 def is_captain(request):
