@@ -197,8 +197,8 @@ def comment_post(request):
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {'content': comment_text}
 
-    data_json = json.dumps(data,ensure_ascii=True)
-    data = json.loads(data_json,encoding='utf-8')
+    # data_json = json.dumps(data,ensure_ascii=True)
+    # data = json.loads(data_json,encoding='utf-8')
     r = json.loads(requests.post(
         SensCheckUrl, data=json.dumps(data).encode('utf-8')))
     print('---r----',r)
