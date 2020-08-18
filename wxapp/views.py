@@ -487,10 +487,10 @@ def cap_apply(request):
             phonenumber=number,
             name=name,
             dis_name=dis_name,
-            active=True,
+            active=False,
             genre=0
         )
-        user.current_captain_id = newcap.captain_id
+        user.current_captain_id = newcap.id
         user.save()
         return HttpResponse('success')
     except:
