@@ -24,7 +24,7 @@ from json import dumps
 from math import radians, cos, sin, asin, sqrt
 import random
 import string
-from django.core.serializers.json import json
+import json
 from homepage.tools import getKeys
 
 # Create your views here.
