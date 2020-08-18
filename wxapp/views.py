@@ -198,7 +198,7 @@ def comment_post(request):
     data = {'content': comment_text}
     data_json = json.dumps(data,ensure_ascii=True, encoding="utf-8")
     r = json.loads(requests.post(
-        SensCheckUrl, data=data_json)
+        SensCheckUrl, data=data_json))
     print('---r----',r)
     if r['errcode'] == '87014':
         return JSONResponse({'code': 'sensitive'})
