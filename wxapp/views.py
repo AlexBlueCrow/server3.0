@@ -195,10 +195,10 @@ def comment_post(request):
         appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
-    data = {'content': comment_text}
-
-    data_json = json.dumps(data,ensure_ascii=True)
-    data = json.loads(data_json,encoding='utf-8')
+    data = {"content": comment_text}
+    data = data.encode('utf-8').decode('unicode_escape')
+    # data_json = json.dumps(data,ensure_ascii=True)
+    # data = json.loads(data_json,encoding='utf-8')
     r = json.loads(requests.post(
         SensCheckUrl, data=json.dumps(data).encode()).content)
 
