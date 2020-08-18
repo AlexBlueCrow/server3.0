@@ -181,7 +181,7 @@ def get_comments(request):
 
 @api_view(['GET'])
 @authentication_classes([])
-def post_comment(request):
+def comment_post(request):
     code = request.GET.get('code')
     comment_text = request.GET.get('comment')
     item_id = request.GET.get('item_id')
@@ -198,7 +198,7 @@ def post_comment(request):
     data = {'content': comment_text}
     r = json.loads(requests.post(
         SensCheckUrl, data=json.dumps(data).encode()).content)
-    print(r)
+    print('---r----',r)
     if r['errcode'] == '87014':
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
