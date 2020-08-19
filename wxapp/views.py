@@ -458,7 +458,7 @@ def getCaptains(request):
     caps_data = []
     for cap in captains:
         item = {}
-        item['id'] = cap.captain_id
+        item['id'] = cap.id
         item['nickname'] = cap.user.nickname
         item['avatarUrl'] = cap.user.avatar
         caps_data.append(item)
