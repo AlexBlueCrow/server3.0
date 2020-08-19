@@ -126,19 +126,20 @@ def getDistance(userLon, userLat, farmLon, farmLat):
 
 
 def get_orderInfo(request):
-    code = request.GET.get('code')
-    key = getKeys()
-    appid = key['appid']
-    secret = key['secret']
+    # code = request.GET.get('code')
+    # key = getKeys()
+    # appid = key['appid']
+    # secret = key['secret']
     user = wxlogin(code)
-    orders = Order.objects.filter(user=user).order_by('-num')
+    orders = Order.objects.filter(user=user).order_by('-id')
     if orders:
         orders_serializer = OrderSerializer(orders, many=True)
+        print(orders_serializer.data)
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
-            order['item_name'] = item.item_name
-            order['farm_name'] = item.owner.name
+            order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
+        print(orders_serializer.data)
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
