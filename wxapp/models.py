@@ -103,12 +103,10 @@ class Order(models.Model):
 
     num = models.CharField(primary_key=True, unique=True, max_length=25)
     user = models.ForeignKey(AppUser, on_delete=models.PROTECT, default='')
-    farm_name = models.CharField(max_length=30,default='',blank=True)
-    
-    price_paid = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
+    farm_name = models.CharField(max_length=30,default='',blank=True)
+    price_paid = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
-
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     deliver_address = models.CharField(max_length=50, default='', blank=False)
@@ -123,7 +121,7 @@ class Order(models.Model):
     genre = models.CharField(max_length=10, choices=[('adopt', 'adopt'), ('sell','sell')])
 
     def __str__(self):
-        return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.item_name+'/'+str(self.captain_id)
+        return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'/'+str(self.captain_id)
 
     def farm(self):
         return self.item.owner

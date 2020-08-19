@@ -128,7 +128,8 @@ def getDistance(userLon, userLat, farmLon, farmLat):
 def get_orderInfo(request):
     code = request.GET.get('code')
     user = wxlogin(code)
-    orders = Order.objects.filter(user=user).order_by('-id')
+    orders = Order.objects.filter(user=user)
+    print('orders',orders)
     if orders:
         orders_serializer = OrderSerializer(orders, many=True)
         print(orders_serializer.data)
