@@ -132,14 +132,15 @@ def get_orderInfo(request):
         orders = Order.objects.filter(user=user)
     except:
         return HttpResponse("无有效订单")
-    print('------orders-----',orders)
+    
     if orders:
         orders_serializer = OrderSerializer(orders, many=True)
-        print('------orders_serializer.data-----',orders_serializer.data)
+        
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
             order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
+            order['image']=item.pic_address
         print(orders_serializer.data)
         return JSONResponse(orders_serializer.data)
     else:
