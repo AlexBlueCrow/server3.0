@@ -132,10 +132,10 @@ def get_orderInfo(request):
         orders = Order.objects.filter(user=user)
     except:
         return HttpResponse("无有效订单")
-    print('orders',orders)
+    print('------orders-----',orders)
     if orders:
         orders_serializer = OrderSerializer(orders, many=True)
-        print(orders_serializer.data)
+        print('------orders_serializer.data-----',orders_serializer.data)
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
             order['item_name'] = item.name
