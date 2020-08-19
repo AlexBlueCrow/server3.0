@@ -52,13 +52,16 @@ class Item(models.Model):
     video_address = models.CharField(max_length=200)  # video filename
     pic_address= models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
-    price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
-    
     status = models.IntegerField(choices=states, default=0)
+
+    price = models.DecimalField(default=0, max_digits=8, decimal_places=2)##price for foster
+    
     mode = models.IntegerField(choices=modes, default=0)
     stock = models.IntegerField(default=0)
     unit = models.CharField(max_length=15, default='', blank=False)
+    
     effect_time = models.DateTimeField(default=timezone.now)
+    
 
     def __str__(self):
         return str(self.id)+self.name+'--'+str(self.price)+'/'+self.unit
@@ -143,6 +146,7 @@ class Prepay_Order(models.Model):
     name_rec = models.CharField(max_length=20, default='', blank=True)
     captain_id = models.IntegerField(blank=True, default=-1)
     message = models.CharField(max_length=400)
+    deliver_time = models.CharField(max_length = 30,default = '')
 
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no
