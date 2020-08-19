@@ -53,6 +53,7 @@ class Item(models.Model):
     pic_address= models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
+    
     status = models.IntegerField(choices=states, default=0)
     mode = models.IntegerField(choices=modes, default=0)
     stock = models.IntegerField(default=0)
