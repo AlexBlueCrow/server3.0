@@ -33,7 +33,7 @@ class VideoFiles(models.Model):
     video = models.FileField(upload_to = 'statics/video/',unique = True )
     cover = models.FileField(upload_to='statics/cover/',unique = False, blank= True)
     def __str__(self):
-        return self.id+'/'+self.name
+        return str(self.id)+'/'+self.name
 
 
 class PicFiles(models.Model):
