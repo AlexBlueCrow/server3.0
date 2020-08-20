@@ -85,11 +85,11 @@ def Item_update(request):
         item = Item.objects.get(id=item_id)
         item.name = item_name
         item.category = category
-        item.item_price = price
+        item.price = price
         item.unit = size
-        item.status = is_active
-        item.save()
+        item.status = 1 if is_active else 0
         item.mode = mode
+        item.save()
         #
         if video_file:
             video_pf=video_file.name.split('.')[-1]
