@@ -94,22 +94,22 @@ def Item_update(request):
         if video_file:
             video_pf=video_file.name.split('.')[-1]
             video_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + video_pf
-            newvideo =  VideoFiles.objects.create(
-                itemname = item_name,
-                farmname = farmname,
+            new_video =  VideoFiles.objects.create(
+                farmid = item.owner.id,
                 video = video_file
             )
-            item.video_address = video_file.name
+            
+            item.video_address = str(new_video.video.split('/')[-1])
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
             pic_file.name = farmname +'-'+ item_name + str(timezone.localtime()) + '.' + pic_pf 
-            newpic = PicFiles.objects.create(
+            new_pic = PicFiles.objects.create(
                 itemname = item_name,
                 farmname = farmname,
                 pic = pic_file
             )
-            item.pic_address= pic_file.name
+            item.pic_address= str(new_pic.pic.split('/')[-1])
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
     else:
@@ -159,8 +159,8 @@ def Item_API(request):
             category = category,
             price = price,
             unit = size,
-            video_address = video_file.name.replace('+',''),
-            pic_address= pic_file.name.replace('+',''),
+            video_address = str(new_video.video).split("/")[-1],
+            pic_address= str(new_pic.pic).split("/")[-1],
             mode = mode,
             status = status
         )

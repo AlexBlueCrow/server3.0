@@ -43,7 +43,7 @@ class PicFiles(models.Model):
     pic = models.FileField(upload_to = 'statics/pic/', unique = True )
 
     def __str__(self):
-        return self.farmname+self.itemname
+        return str(self.id)+self.itemname
 
 class VIMap(models.Model):
     name = models.CharField(max_length = 50,default='')
