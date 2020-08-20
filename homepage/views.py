@@ -99,7 +99,7 @@ def Item_update(request):
                 video = video_file
             )
             
-            item.video_address = str(new_video.video.split('/')[-1])
+            item.video_address = str(new_video.video).split('/')[-1]
             item.save()
         if pic_file:
             pic_pf=pic_file.name.split('.')[-1]
@@ -109,7 +109,7 @@ def Item_update(request):
                 farmname = farmname,
                 pic = pic_file
             )
-            item.pic_address= str(new_pic.pic.split('/')[-1])
+            item.pic_address= str(new_pic.pic).split('/')[-1]
             item.save()
         return JSONResponse({'code':20000,'data':{'msg':'更新成功'},})
     else:
