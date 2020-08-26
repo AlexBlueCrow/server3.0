@@ -362,7 +362,7 @@ def weChatPay(request):
         phone_num=str(phone_num),
         name_rec=name_rec,
         captain_id=captain_id,
-        deliver_time=del_time,
+        
         nickname=nickname,
         post_sign=post_sign,
         genre=genre
@@ -412,7 +412,7 @@ def pay_feedback(request):
             phone_num=str(prepay_serializer.data['phone_num']),
             name_rec=prepay_serializer.data['name_rec'],
             captain_id=prepay_serializer.data['captain_id'],
-            deliver_time=prepay_serializer.data['deliver_time'],
+            
             genre = prepay.genre,
             nickname= prepay.nickname,
             post_sign =prepay.post_sign,
