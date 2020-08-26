@@ -101,7 +101,7 @@ class Captain(models.Model):
         max_digits=2, decimal_places=2, default=0)
     commission_d = models.DecimalField(
         max_digits=2, decimal_places=2, default=0)
-    
+
     def __str__(self):
         return self.name+'/'+self.dis_name
 
@@ -158,7 +158,7 @@ class Prepay_Order(models.Model):
     nickname = models.CharField(max_length=20, default='')
     post_sign = models.CharField(max_length=40, default='')
     genre = models.CharField(max_length=10, choices=[
-        ('adopt', 'adopt'), ('sell', 'sell')])
+        ('adopt', 'adopt'), ('sell', 'sell')],default='sell')
 
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no
