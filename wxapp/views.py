@@ -365,7 +365,7 @@ def weChatPay(request):
         deliver_time=del_time,
         nickname = nickname,
         post_sign = post_sign,
-        genre = genre,
+        genre = 0,
     )
 
     user.current_captain_id = captain_id
