@@ -326,7 +326,7 @@ def weChatPay(request):
     # success
     user = wxlogin(code)
     openid = user.openid
-
+    print(captain_id,nickname,post_sign)
     NOTIFY_URL = 'https://qingjiao.shop:8000/server/pay_feedback'
     wepy_order = WeChatPay(appid=appid, sub_appid=appid,
                            api_key=mch_key, mch_id=mch_id)

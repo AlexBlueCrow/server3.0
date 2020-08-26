@@ -153,8 +153,8 @@ class Prepay_Order(models.Model):
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     captain_id = models.IntegerField(blank=True, default=-1)
-    deliver_time = models.CharField(max_length=30, default='')
-    message = models.CharField(max_length=400)
+    deliver_time = models.CharField(max_length=30, default='',null=True)
+    message = models.CharField(max_length=400,null=True)
     nickname = models.CharField(max_length=20, default='',null=True)
     post_sign = models.CharField(max_length=40, default='',null=True)
     genre = models.CharField(max_length=10, choices=[
