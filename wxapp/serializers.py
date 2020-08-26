@@ -20,8 +20,8 @@ class AdoptSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    sell = SellSerializer(many=False, read_only=True)
-    adopt = AdoptSerializer(many=False, read_only=True)
+    Sell = SellSerializer(many=False, read_only=True)
+    Adopt = AdoptSerializer(many=False, read_only=True)
     
     class Meta:
         model = Item
