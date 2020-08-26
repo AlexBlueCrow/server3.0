@@ -42,37 +42,44 @@ class FarmUser(models.Model):
 class Item(models.Model):
     # id ++
     states = [(0, 'inactive'), (1, 'active'), (2, 'expire')]
-    modes = [(0,'all'),(1,'foster'),(2,'selling')]
+    modes = [(0, 'all'), (1, 'foster'), (2, 'selling')]
     name = models.CharField(max_length=100, blank=False, default='')
     owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
     category = models.CharField(max_length=100, blank=False, default='')
     video_address = models.CharField(max_length=200)  # video filename
-    pic_address= models.CharField(max_length=200)  # pic filename
+    pic_address = models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
     status = models.IntegerField(choices=states, default=0)
     mode = models.IntegerField(choices=modes, default=0)
     effect_time = models.DateTimeField(default=timezone.now)
+
     def __str__(self):
         return str(self.id)+'.'+self.name
 
 
 class Sell(models.Model):
-    item = models.OneToOneField(Item,on_delete=models.CASCADE,related_name='Sell')
-    price = price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    item = models.OneToOneField(
+        Item, on_delete=models.CASCADE, related_name='Sell')
+    price = price = models.DecimalField(
+        default=0, max_digits=8, decimal_places=2)
     unit = models.CharField(max_length=15, default='', blank=False)
+
     def __str__(self):
         return 'selling info of %s' % self.item.name
 
+
 class Adopt(models.Model):
-    item = models.OneToOneField(Item,on_delete=models.CASCADE,related_name='Adopt')
-    price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    item = models.OneToOneField(
+        Item, on_delete=models.CASCADE, related_name='Adopt')
+    price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     guaranteed = models.FloatField(default=0)
     benefit = models.CharField(max_length=200)
-    period = models.IntegerField(blank=True,default=1)
-    unit = models.CharField(max_length=5,default='',blank=False)
-    
+    period = models.IntegerField(blank=True, default=1)
+    unit = models.CharField(max_length=5, default='', blank=False)
+
     def __str__(self):
         return 'adopting info of %s' % self.item.name
+
 
 class Captain(models.Model):
     genres = [
@@ -90,36 +97,38 @@ class Captain(models.Model):
     dis_name = models.CharField(max_length=20, default='', blank=True)
     time_of_join = models.DateTimeField(default=timezone.now)
     genre = models.IntegerField(choices=genres, default=0)
-    commission_m = models.DecimalField(max_digits=2, decimal_places=2,default=0)
-    commission_d = models.DecimalField(max_digits=2, decimal_places=2,default=0)
+    commission_m = models.DecimalField(
+        max_digits=2, decimal_places=2, default=0)
+    commission_d = models.DecimalField(
+        max_digits=2, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name+'/'+self.dis_name
 
 
 class Order(models.Model):
-
     num = models.CharField(primary_key=True, unique=True, max_length=25)
     user = models.ForeignKey(AppUser, on_delete=models.PROTECT, default='')
-    item = models.ForeignKey(Item, on_delete=models.PROTECT)
-    farm_name = models.CharField(max_length=30,default='',blank=True)
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    farm_name = models.CharField(max_length=30, default='', blank=True)
     price_paid = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
+
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     deliver_address = models.CharField(max_length=50, default='', blank=False)
+
     effect_time = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
-    price_origin = models.DecimalField(
-        default=0, max_digits=8, decimal_places=2)
     captain_id = models.IntegerField(blank=True, default=-1)
     num_delivered = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
     message = models.CharField(max_length=400)
-    genre = models.CharField(max_length=10, choices=[('adopt', 'adopt'), ('sell','sell')])
+    genre = models.CharField(max_length=10, choices=[
+                             ('adopt', 'adopt'), ('sell', 'sell')])
 
     def __str__(self):
-        return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'/'+str(self.captain_id)
+        return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'--'+str(self.captain_id)
 
     def farm(self):
         return self.item.owner
@@ -129,7 +138,8 @@ class Order(models.Model):
 
 
 class Prepay_Order(models.Model):
-    out_trade_no = models.CharField(primary_key=True, unique=True, max_length=20)
+    out_trade_no = models.CharField(
+        primary_key=True, unique=True, max_length=20)
     sign = models.CharField(max_length=50)
     noncestr = models.CharField(max_length=50)
     openid = models.CharField(max_length=40)
@@ -141,8 +151,8 @@ class Prepay_Order(models.Model):
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     captain_id = models.IntegerField(blank=True, default=-1)
+    deliver_time = models.CharField(max_length=30, default='')
     message = models.CharField(max_length=400)
-    deliver_time = models.CharField(max_length = 30,default = '')
 
     def __str__(self):
         return str(self.fee)+str(self.varified)+self.out_trade_no

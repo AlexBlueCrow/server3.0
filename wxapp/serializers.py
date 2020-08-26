@@ -20,9 +20,9 @@ class AdoptSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    Sell = SellSerializer(many=False, read_only=True)
-    Adopt = AdoptSerializer(many=False, read_only=True)
-    ex_videos = VIMapSerializer(many=True,read_only=True)
+    sell = SellSerializer(many=False, read_only=True)
+    adopt = AdoptSerializer(many=False, read_only=True)
+    
     class Meta:
         model = Item
         fields = '__all__'
