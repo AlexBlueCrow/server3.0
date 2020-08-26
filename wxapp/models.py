@@ -117,7 +117,7 @@ class Order(models.Model):
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     deliver_address = models.CharField(max_length=50, default='', blank=False)
-
+    imageUrl = models.CharField(max_length=50, default='', blank=True,null=True)
     effect_time = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     captain_id = models.IntegerField(blank=True, default=-1)
