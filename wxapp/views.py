@@ -81,7 +81,7 @@ def get_item(request):
         item['dis'] = round(getDistance(userlon, userlat, farmLon, farmLat), 2)
     sorteddata = sorted(items_serializer.data, key=lambda x: x['dis'])
     for item in sorteddata:
-        if item['sell']:
+        if item['Sell']:
             item['sell']['price'] = int(item['sell']['price'])
         item['ex_videos'] = []
         links = VIMap.objects.filter(item_id=item['id'])
