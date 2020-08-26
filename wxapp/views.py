@@ -408,7 +408,7 @@ def pay_feedback(request):
             deliver_address=prepay_serializer.data['deliver_address'],
             price_paid=prepay_serializer.data['fee'],
             quantity=prepay_serializer.data['quantity'],
-            price_origin=item_serializer.data['item_price'],
+            price_origin=item_serializer.data['price'],
             imageUrl=item_serializer.data['pic_address'],
             phone_num=str(prepay_serializer.data['phone_num']),
             name_rec=prepay_serializer.data['name_rec'],
