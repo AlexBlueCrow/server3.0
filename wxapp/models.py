@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
@@ -53,28 +50,29 @@ class Item(models.Model):
     pic_address= models.CharField(max_length=200)  # pic filename
     description = models.CharField(max_length=600, blank=True)
     status = models.IntegerField(choices=states, default=0)
-
-    price = models.DecimalField(default=0, max_digits=8, decimal_places=2)##price for foster
-    
     mode = models.IntegerField(choices=modes, default=0)
-    stock = models.IntegerField(default=0)
-    unit = models.CharField(max_length=15, default='', blank=False)
-    
     effect_time = models.DateTimeField(default=timezone.now)
-    
-
     def __str__(self):
-        return str(self.id)+self.name+'--'+str(self.price)+'/'+self.unit
+        return str(self.id)+'.'+self.name
 
-    def deactivate(self):
-        self.status = 1
 
-    def expire(self):
-        self.status = 2
+class Sell(models.Model):
+    item = models.OneToOneField(Item,on_delete=models.CASCADE,related_name='Sell')
+    price = price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    unit = models.CharField(max_length=15, default='', blank=False)
+    def __str__(self):
+        return 'selling info of %s' % self.item.name
 
-    def activate(self):
-        self.status = 0
-
+class Adopt(models.Model):
+    item = models.OneToOneField(Item,on_delete=models.CASCADE,related_name='Adopt')
+    price = models.DecimalField(default=0,max_digits=8,decimal_places=2)
+    guaranteed = models.FloatField(default=0)
+    benefit = models.CharField(max_length=200)
+    period = models.IntegerField(blank=True,default=1)
+    unit = models.CharField(max_length=5,default='',blank=False)
+    
+    def __str__(self):
+        return 'adopting info of %s' % self.item.name
 
 class Captain(models.Model):
     genres = [

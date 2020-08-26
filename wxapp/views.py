@@ -80,14 +80,14 @@ def get_item(request):
                 break
         item['dis'] = round(getDistance(userlon, userlat, farmLon, farmLat), 2)
     sorteddata = sorted(items_serializer.data, key=lambda x: x['dis'])
-    for item in sorteddata:
-        item['ex_videos'] = []
-        links = VIMap.objects.filter(item_id=item['id'])
-        for link in links:
-            video = VideoFiles.objects.get(id=link.video_id)
-            video_file_name = str(video.video).split("/")[-1]
-            cover_file_name = str(video.cover).split("/")[-1]
-            item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name,'name':video.name})
+    # for item in sorteddata:
+    #     item['ex_videos'] = []
+    #     links = VIMap.objects.filter(item_id=item['id'])
+    #     for link in links:
+    #         video = VideoFiles.objects.get(id=link.video_id)
+    #         video_file_name = str(video.video).split("/")[-1]
+    #         cover_file_name = str(video.cover).split("/")[-1]
+    #         item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name,'name':video.name})
        
     
     return JSONResponse(sorteddata)
@@ -104,7 +104,7 @@ def getFarmLocs():
 
 
 def getCaptainLocs():
-    captains = Captain.objects.all()
+    captains = Captain.objects.filter(active=True)
     dic = []
     for cap in captains:
         Locinfo = {'id': cap.id, 'name': cap.name,
