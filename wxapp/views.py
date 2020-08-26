@@ -87,9 +87,9 @@ def get_item(request):
             video = VideoFiles.objects.get(id=link.video_id)
             video_file_name = str(video.video).split("/")[-1]
             cover_file_name = str(video.cover).split("/")[-1]
-            item['ex_videos'].append({'video':video_file_name,'cover':cover_file_name,'name':video.name})
-       
-    
+            item['ex_videos'].append(
+                {'video': video_file_name, 'cover': cover_file_name, 'name': video.name})
+
     return JSONResponse(sorteddata)
 
 
@@ -132,15 +132,15 @@ def get_orderInfo(request):
         orders = Order.objects.filter(user=user)
     except:
         return HttpResponse("无有效订单")
-    
+
     if orders:
         orders_serializer = OrderSerializer(orders, many=True)
-        
+
         for order in orders_serializer.data:
             item = Item.objects.get(id=order['item'])
             order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
-            order['image']=item.pic_address
+            order['image'] = item.pic_address
         print(orders_serializer.data)
         return JSONResponse(orders_serializer.data)
     else:
@@ -162,11 +162,11 @@ def get_userInfo(request):
 
 
 # '''def get_questions(request):
-#     category=request.GET.get('cate') 
+#     category=request.GET.get('cate')
 #     try:
 #         questions = Question.objects.filter(question_category=category)
 #     except Question.DoesNotExist:
-#         return HttpResponseNotFound 
+#         return HttpResponseNotFound
 #     questions_serializer = QuestionSerializer(questions,many=True)
 #     return JSONResponse(questions_serializer.data)
 # '''
@@ -199,13 +199,12 @@ def comment_post(request):
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     SensCheckUrl = 'https://api.weixin.qq.com/wxa/msg_sec_check?access_token='+accToken
     data = {"content": comment_text}
-    
+
     # data_json = json.dumps(data,ensure_ascii=True)
     # data = json.loads(data_json,encoding='utf-8')
     r = json.loads(requests.post(
-        SensCheckUrl, data=json.dumps(data,ensure_ascii=False).encode()).content)
+        SensCheckUrl, data=json.dumps(data, ensure_ascii=False).encode()).content)
 
-   
     if r['errcode'] == 87014:
         return JSONResponse({'code': 'sensitive'})
     user = wxlogin(code)
@@ -308,11 +307,16 @@ def weChatPay(request):
     mch_key = key['mch_key']
 
     code = request.GET.get('code')
+    genre = request.GET.get('genre')
     item_id = request.GET.get('item_id')
     item_name = request.GET.get('item_name')
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
     reward = request.GET.get('reward')
+
+    nickname = request.GET.get('nickname')
+    post_sign = request.GET.get('post_sign')
+
     price = int(float(request.GET.get('total_fee'))*100)
     address = request.GET.get('addRegion')+request.GET.get('addDetail')
     name_rec = request.GET.get('name_rec')
@@ -358,6 +362,9 @@ def weChatPay(request):
         name_rec=name_rec,
         captain_id=captain_id,
         deliver_time=del_time,
+        nickname = nickname,
+        post_sign = post_sign,
+        genre = genre
     )
 
     user.current_captain_id = captain_id
@@ -487,16 +494,16 @@ def cap_apply(request):
     user = wxlogin(code)
     # try:
     newcap = Captain.objects.create(
-            user=user,
-            longitude=longitude,
-            latitude=latitude,
-            address=address,
-            phonenumber=number,
-            name=name,
-            dis_name=dis_name,
-            active=False,
-            genre=0
-        )
+        user=user,
+        longitude=longitude,
+        latitude=latitude,
+        address=address,
+        phonenumber=number,
+        name=name,
+        dis_name=dis_name,
+        active=False,
+        genre=0
+    )
     user.current_captain_id = newcap.id
     user.save()
     return HttpResponse('success')
