@@ -51,6 +51,7 @@ class VIMap(models.Model):
     item_id = models.IntegerField(blank=False,default=-1)
     video_id = models.IntegerField(blank=False,default=-1)
 
+    
     def __str__(self):
         return self.name
 

@@ -127,7 +127,6 @@ def Item_API(request):
         item_name = request.POST.get('itemname')
         name = request.POST.get('name')
         category = request.POST.get('class')
-        price = request.POST.get('price')
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
         mode  = request.POST.get('mode')
