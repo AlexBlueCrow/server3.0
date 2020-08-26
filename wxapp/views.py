@@ -347,7 +347,7 @@ def weChatPay(request):
 
     timeStamp = str(int(time.time()))
     nonceStr = pay_res['nonce_str']
-    print('---prams----',genre)
+    print('---prams----', genre)
     paySign = pay.get_paysign(
         prepay_id=prepay_id, timeStamp=timeStamp, nonceStr=nonceStr)
     prepay_order = Prepay_Order.objects.create(
@@ -363,9 +363,9 @@ def weChatPay(request):
         name_rec=name_rec,
         captain_id=captain_id,
         deliver_time=del_time,
-        nickname = nickname,
-        post_sign = post_sign,
-        genre = 'adopt',
+        nickname=nickname,
+        post_sign=post_sign,
+       
     )
 
     user.current_captain_id = captain_id
