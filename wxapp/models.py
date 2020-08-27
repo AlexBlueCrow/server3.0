@@ -107,7 +107,8 @@ class Captain(models.Model):
 
 
 class Order(models.Model):
-    num = models.CharField(primary_key=True, unique=True, max_length=25)
+    
+    num = models.CharField(unique=True, max_length=25)
     user = models.ForeignKey(AppUser, on_delete=models.PROTECT, default='')
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
     farm_name = models.CharField(max_length=30, default='', blank=True)

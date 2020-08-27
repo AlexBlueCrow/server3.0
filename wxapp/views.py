@@ -141,7 +141,7 @@ def get_orderInfo(request):
             order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
             order['image'] = item.pic_address
-        print(orders_serializer.data)
+        
         return JSONResponse(orders_serializer.data)
     else:
         return HttpResponse("无有效订单")
@@ -326,7 +326,7 @@ def weChatPay(request):
     # success
     user = wxlogin(code)
     openid = user.openid
-    print(captain_id,nickname,post_sign)
+   
     NOTIFY_URL = 'https://qingjiao.shop:8000/server/pay_feedback'
     wepy_order = WeChatPay(appid=appid, sub_appid=appid,
                            api_key=mch_key, mch_id=mch_id)
@@ -400,37 +400,39 @@ def pay_feedback(request):
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         user = AppUser.objects.get(openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item, many=False)
-        new_order = Order.objects.create(
-            num=str(prepay_serializer.data['out_trade_no']),
-            item=item,
-            farm_name=item.owner.name,
-            user=user,
-            deliver_address=prepay_serializer.data['deliver_address'],
-            price_paid=prepay_serializer.data['fee'],
-            quantity=prepay_serializer.data['quantity'],
-            imageUrl=item_serializer.data['pic_address'],
-            phone_num=str(prepay_serializer.data['phone_num']),
-            name_rec=prepay_serializer.data['name_rec'],
-            captain_id=prepay_serializer.data['captain_id'],
-            
-            genre = prepay.genre,
-            nickname= prepay.nickname,
-            post_sign =prepay.post_sign,
-        )
-        comment = Comments.objects.create(
-            user=user,
-            comment_text='我刚刚买了'+item.item_name+'!',
-            item_id=item.item_id,
-            user_avatar=user.avatar,
-            user_nickname=user.nickname,
-            genre=2,
-        )
+        try:
+            new_order = Order.objects.create(
+                num=str(prepay_serializer.data['out_trade_no']),
+                item=item,
+                farm_name=item.owner.name,
+                user=user,
+                deliver_address=prepay_serializer.data['deliver_address'],
+                price_paid=prepay_serializer.data['fee'],
+                quantity=prepay_serializer.data['quantity'],
+                imageUrl=item_serializer.data['pic_address'],
+                phone_num=str(prepay_serializer.data['phone_num']),
+                name_rec=prepay_serializer.data['name_rec'],
+                captain_id=prepay_serializer.data['captain_id'],
+                
+                genre = prepay.genre,
+                nickname= prepay.nickname,
+                post_sign =prepay.post_sign,
+            )
+            comment = Comments.objects.create(
+                user=user,
+                comment_text='我刚刚买了'+item.item_name+'!',
+                item_id=item.item_id,
+                user_avatar=user.avatar,
+                user_nickname=user.nickname,
+                genre=2,
+            )
 
         #print('order created:',new_order)
-        prepay.varified = True
-        prepay.save()
+            prepay.varified = True
+            prepay.save()
         #print('prepay varified')
-
+        except:
+            pass
         return HttpResponse('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>')
     else:
         failed = Varify_failed.objects.create(
