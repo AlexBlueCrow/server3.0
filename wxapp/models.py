@@ -108,13 +108,12 @@ class Captain(models.Model):
 
 class Order(models.Model):
     
-    num = models.CharField(unique=True, max_length=25)
+    num = models.CharField(primary_key=True, unique=True, max_length=25)
     user = models.ForeignKey(AppUser, on_delete=models.PROTECT, default='')
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
     farm_name = models.CharField(max_length=30, default='', blank=True)
     price_paid = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
-
     phone_num = models.CharField(max_length=30, default='')
     name_rec = models.CharField(max_length=20, default='', blank=True)
     deliver_address = models.CharField(max_length=50, default='', blank=False)
