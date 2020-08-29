@@ -133,7 +133,7 @@ def Item_API(request):
         unit_A = request.POST.get('size_A')
         price_A = request.POST.get('price_A')
         guaranteed = request.POST.get('guaranteed')
-        rights = request.POST.get('rights')
+        benefit = request.POST.get('benefit')
 
         price_S = request.POST.get('price_S')
         unit_S = request.POST.get('size_S')
@@ -168,21 +168,21 @@ def Item_API(request):
             status=status
         )
         item.save()
-        # if mode != 1:
-        #     sellinfo = Sell.objects.create(
-        #         item=item,
-        #         price=price_S,
-        #         unit=unit_S,
-        #     )
-        if mode != 2:
-            adoptinfo = Adopt.objects.create(
-                item=item,
-                price=price_A,
-                unit=unit_A,
-                guaranteed=guaranteed,
-                benefit=rights,
-            )
-
+        sellinfo = Sell.objects.create(
+            item=item,
+        )
+        adoptinfo = Adopt.objects.create(
+            item=item,
+        )
+        if price_S:
+            sellinfo.price=price_S
+            sellinfo.unit=unit_S
+            sellinfo.save()
+        if price_A:
+            adoptinfo.price=price_A
+            adoptinfo.unit=unit_A
+            adoptinfo.guaranteed=guaranteed
+            adoptinfo.benifit = benefit
         return HttpResponse('success')
 
     if request.method == 'GET':

@@ -73,7 +73,7 @@ class Adopt(models.Model):
         Item, on_delete=models.CASCADE, related_name='Adopt')
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     guaranteed = models.FloatField(default=0)
-    benefit = models.CharField(max_length=200)
+    benefit = models.CharField(max_length=200,default='')
     period = models.IntegerField(blank=True, default=1)
     unit = models.CharField(max_length=5, default='', blank=False)
 
