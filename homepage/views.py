@@ -132,7 +132,7 @@ def Item_API(request):
 
         unit_A = request.POST.get('size_A')
         price_A = request.POST.get('price_A')
-        guaranted = request.POST.get('guaranted')
+        guaranteed = request.POST.get('guaranteed')
         rights = request.POST.get('rights')
 
         price_S = request.POST.get('price_S')
@@ -168,18 +168,18 @@ def Item_API(request):
             status=status
         )
         item.save()
-        if mode != 1:
-            sellinfo = Sell.objects.create(
-                item=item,
-                price=price_S,
-                unit=unit_S,
-            )
+        # if mode != 1:
+        #     sellinfo = Sell.objects.create(
+        #         item=item,
+        #         price=price_S,
+        #         unit=unit_S,
+        #     )
         if mode != 2:
             adoptinfo = Adopt.objects.create(
                 item=item,
                 price=price_A,
                 unit=unit_A,
-                guaranted=guaranted,
+                guaranteed=guaranteed,
                 benefit=rights,
             )
 
