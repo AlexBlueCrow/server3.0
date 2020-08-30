@@ -38,6 +38,9 @@ class FarmUser(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class Item(models.Model):
     # id ++
