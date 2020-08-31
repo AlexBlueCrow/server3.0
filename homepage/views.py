@@ -27,6 +27,8 @@ def order(request):
         orders = Order.objects.filter(
             effect_time__range=(start, end), farm_name=farm_name)
         orders_serializer = OrderSerializer(orders, many=True)
+        for order in orders_serializer.data:
+            order['effect_time']=order['effect_time'][0:19]
         return JSONResponse(orders_serializer.data)
     except:
         return JSONResponse({'code': 20000, 'data': {'msg': '目标范围无数据'}, })
