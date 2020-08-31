@@ -126,6 +126,7 @@ class Order(models.Model):
     effect_time = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     captain_id = models.IntegerField(blank=True, default=-1)
+    
     num_delivered = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
     message = models.CharField(max_length=400)
@@ -133,15 +134,13 @@ class Order(models.Model):
                              ('adopt', 'adopt'), ('sell', 'sell')])
     nickname = models.CharField(max_length=20, default='',null=True)
     post_sign = models.CharField(max_length=40, default='',null=True)
-
+    captain_obj = models.ForeignKey(Captain,on_delete=models.SET_NULL,default='',null=True)
     def __str__(self):
         return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'--'+str(self.captain_id)
 
     def farm(self):
         return self.item.owner
 
-    def captain(self):
-        return Captain.objects.get(id=self.captain_id)
 
 
 class Prepay_Order(models.Model):
