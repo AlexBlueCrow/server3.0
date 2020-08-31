@@ -12,7 +12,7 @@ class AdminUser(AbstractUser):
     role = models.CharField(max_length=20,default='farmuser')
     active = models.BooleanField(default=False)
     def __str__(self):
-      return self.username
+      return self.id+'.'+self.username
 
 class Account(models.Model):
     owner = models.ForeignKey(AdminUser,on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class VIMap(models.Model):
     item_id = models.IntegerField(blank=False,default=-1)
     video_id = models.IntegerField(blank=False,default=-1)
 
-    
+
     def __str__(self):
         return self.name
 

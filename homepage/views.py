@@ -22,9 +22,10 @@ def order(request):
     start = request.GET.get('date1')
     end = request.GET.get('date2')
     farm_name = request.GET.get('farmname')
+    print(start,end,farm_name)
     try:
         orders = Order.objects.filter(
-            effect_time__range=(start, end), name=farm_name)
+            effect_time__range=(start, end), farm_name=farm_name)
         orders_serializer = OrderSerializer(orders, many=True)
         return JSONResponse(orders_serializer.data)
     except:
@@ -285,9 +286,12 @@ def csv(request):
 def Farm_API(request):
     if request.method == 'GET':
         farmname = request.GET.get('farmname')
-        farm_obj = FarmUser.objects.get(name=farmname)
-        farm_serializer = FarmUserSerializer(farm_obj, many=False)
-        return JSONResponse({'code': 20000, 'data': farm_serializer.data})
+        try:
+            farm_obj = FarmUser.objects.get(name=farmname)
+            farm_serializer = FarmUserSerializer(farm_obj, many=False)
+            return JSONResponse({'code': 20000, 'data': farm_serializer.data,'msg':'获取成功'})
+        except:
+            return JSONResponse({'code': 404, 'msg':'农场未创建'})
     if request.method == 'POST':
         farmname = request.POST.get('farmname')
         address = request.POST.get('address')

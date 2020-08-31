@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
 
+
 # Create your models here.
 
 
@@ -27,6 +28,7 @@ class AppUser(models.Model):
 
 
 class FarmUser(models.Model):
+    
     name = models.CharField(max_length=50, unique=True)
     address = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
