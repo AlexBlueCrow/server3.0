@@ -129,11 +129,11 @@ class Order(models.Model):
     
     num_delivered = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
-    message = models.CharField(max_length=400)
+    message = models.CharField(max_length=400,null=True,blank=True)
     genre = models.CharField(max_length=10, choices=[
                              ('adopt', 'adopt'), ('sell', 'sell')])
-    nickname = models.CharField(max_length=20, default='',null=True)
-    post_sign = models.CharField(max_length=40, default='',null=True)
+    nickname = models.CharField(max_length=20, default='',null=True,blank=True)
+    post_sign = models.CharField(max_length=40, default='',null=True,blank=True)
     captain_obj = models.ForeignKey(Captain,on_delete=models.SET_NULL,default='',null=True)
     def __str__(self):
         return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'--'+str(self.captain_id)
