@@ -31,7 +31,7 @@ def order(request):
         for order in orders_serializer.data:
             order['effect_time']=order['effect_time'][0:19]
             
-        return JSONResponse({'code': 20000, 'data': {'msg': '目标范围无数据'},'status':'success'})
+        return JSONResponse({'code': 20000, 'data': orders_serializer.data,'status':'success'})
     except:
         return JSONResponse({'code': 20000, 'data': {'msg': '目标范围无数据'},'status':'fail' })
 
