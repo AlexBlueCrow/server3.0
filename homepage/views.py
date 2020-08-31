@@ -27,7 +27,7 @@ def order(request):
         orders = Order.objects.filter(
             effect_time__range=(start, end), farm_name=farm_name)
         orders_serializer = OrderSerializer(orders, many=True)
-        
+        print(orders_serializer.data)
         for order in orders_serializer.data:
             order['effect_time']=order['effect_time'][0:19]
             
