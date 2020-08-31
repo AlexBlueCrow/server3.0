@@ -30,6 +30,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     itemname = serializers.CharField(source='item.name')
+    capname = serializers.CharField(source = 'captain_obj.name')
     class Meta:
         model = Order
         fields = '__all__'
