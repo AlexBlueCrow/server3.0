@@ -400,6 +400,7 @@ def pay_feedback(request):
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         user = AppUser.objects.get(openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item, many=False)
+        cap = Captain.objects.get(id=prepay_serializer.data['captain_id'])
         try:
             new_order = Order.objects.create(
                 num=str(prepay_serializer.data['out_trade_no']),
@@ -413,7 +414,7 @@ def pay_feedback(request):
                 phone_num=str(prepay_serializer.data['phone_num']),
                 name_rec=prepay_serializer.data['name_rec'],
                 captain_id=prepay_serializer.data['captain_id'],
-                
+                cap=cap,
                 genre = prepay.genre,
                 nickname= prepay.nickname,
                 post_sign =prepay.post_sign,
