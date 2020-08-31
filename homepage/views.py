@@ -23,17 +23,14 @@ def order(request):
     end = request.GET.get('date2')
     farm_name = request.GET.get('farmname')
     
-    try:
-        orders = Order.objects.filter(
-            effect_time__range=(start, end), farm_name=farm_name)
-        orders_serializer = OrderSerializer(orders, many=True)
-        print(orders_serializer.data)
-        for order in orders_serializer.data:
-            order['effect_time']=order['effect_time'][0:19]
-            
-        return JSONResponse({'code': 20000, 'data': orders_serializer.data,'status':'success'})
-    except:
-        return JSONResponse({'code': 20000, 'data': {'msg': '目标范围无数据'},'status':'fail' })
+ 
+    orders = Order.objects.filter(
+        effect_time__range=(start, end), farm_name=farm_name)
+    orders_serializer = OrderSerializer(orders, many=True)
+    print(orders_serializer.data)
+    for order in orders_serializer.data:
+        order['effect_time']=order['effect_time'][0:19]
+    return JSONResponse({'code': 20000, 'data': orders_serializer.data,'status':'success'})
 
 
 @csrf_exempt
