@@ -137,10 +137,11 @@ def get_orderInfo(request):
             order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
             order['image'] = item.pic_address
-        
+
         return JSONResponse(orders_serializer.data)
     except:
         return HttpResponse("无有效订单")
+
 
 def get_farmInfo(request):
     id = request.GET.get('farm')
@@ -321,7 +322,7 @@ def weChatPay(request):
     # success
     user = wxlogin(code)
     openid = user.openid
-   
+
     NOTIFY_URL = 'https://qingjiao.shop:8000/server/pay_feedback'
     wepy_order = WeChatPay(appid=appid, sub_appid=appid,
                            api_key=mch_key, mch_id=mch_id)
@@ -342,7 +343,7 @@ def weChatPay(request):
 
     timeStamp = str(int(time.time()))
     nonceStr = pay_res['nonce_str']
-    
+
     paySign = pay.get_paysign(
         prepay_id=prepay_id, timeStamp=timeStamp, nonceStr=nonceStr)
     prepay_order = Prepay_Order.objects.create(
@@ -357,7 +358,7 @@ def weChatPay(request):
         phone_num=str(phone_num),
         name_rec=name_rec,
         captain_id=captain_id,
-        
+
         nickname=nickname,
         post_sign=post_sign,
         genre=genre
@@ -410,9 +411,9 @@ def pay_feedback(request):
                 name_rec=prepay_serializer.data['name_rec'],
                 captain_id=prepay_serializer.data['captain_id'],
                 cap=cap,
-                genre = prepay.genre,
-                nickname= prepay.nickname,
-                post_sign =prepay.post_sign,
+                genre=prepay.genre,
+                nickname=prepay.nickname,
+                post_sign=prepay.post_sign,
             )
             comment = Comments.objects.create(
                 user=user,
@@ -495,25 +496,24 @@ def cap_apply(request):
     deliver = request.GET.get('deliver')
     marketing = request.GET.get('marketing')
     user = wxlogin(code)
-    # try:
-    try:
-        newcap = Captain.objects.create(
-            user=user,
-            longitude=longitude,
-            latitude=latitude,
-            address=address,
-            phonenumber=number,
-            name=name,
-            dis_name=dis_name,
-            active=False,
-            deliver=deliver,
-            marketing=marketing
-        )
-        user.current_captain_id = newcap.id
-        user.save()
-        return HttpResponse('success')
-    except:
-        return HttpResponse('fail')
+
+    newcap = Captain.objects.create(
+        user=user,
+        longitude=longitude,
+        latitude=latitude,
+        address=address,
+        phonenumber=number,
+        name=name,
+        dis_name=dis_name,
+        active=False,
+        deliver=deliver,
+        marketing=marketing
+    )
+    user.current_captain_id = newcap.id
+    user.save()
+    return HttpResponse('success')
+    # except:
+    #     return HttpResponse('fail')
 
 
 def is_captain(request):
