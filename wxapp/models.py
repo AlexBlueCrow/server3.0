@@ -98,7 +98,7 @@ class Captain(models.Model):
     dis_name = models.CharField(max_length=20, default='', blank=True)
     time_of_join = models.DateTimeField(default=timezone.now)
     
-    diliver = models.BooleanField(default=False)
+    deliver = models.BooleanField(default=False)
     marketing = models.BooleanField(default=False)
     commission_m = models.DecimalField(
         max_digits=2, decimal_places=2, default=0)
