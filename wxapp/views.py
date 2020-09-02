@@ -130,10 +130,6 @@ def get_orderInfo(request):
     user = wxlogin(code)
     try:
         orders = Order.objects.filter(user=user)
-    except:
-        return HttpResponse("无有效订单")
-
-    if orders:
         orders_serializer = OrderSerializer(orders, many=True)
 
         for order in orders_serializer.data:
@@ -143,9 +139,8 @@ def get_orderInfo(request):
             order['image'] = item.pic_address
         
         return JSONResponse(orders_serializer.data)
-    else:
+    except:
         return HttpResponse("无有效订单")
-
 
 def get_farmInfo(request):
     id = request.GET.get('farm')
@@ -497,24 +492,28 @@ def cap_apply(request):
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
     dis_name = request.GET.get('disName')
+    deliver = request.GET.get('deliver')
+    marketing = request.GET.get('marketing')
     user = wxlogin(code)
     # try:
-    newcap = Captain.objects.create(
-        user=user,
-        longitude=longitude,
-        latitude=latitude,
-        address=address,
-        phonenumber=number,
-        name=name,
-        dis_name=dis_name,
-        active=False,
-        genre=0
-    )
-    user.current_captain_id = newcap.id
-    user.save()
-    return HttpResponse('success')
-    # except:
-    return HttpResponse('fail')
+    try:
+        newcap = Captain.objects.create(
+            user=user,
+            longitude=longitude,
+            latitude=latitude,
+            address=address,
+            phonenumber=number,
+            name=name,
+            dis_name=dis_name,
+            active=False,
+            deliver=deliver,
+            marketing=marketing
+        )
+        user.current_captain_id = newcap.id
+        user.save()
+        return HttpResponse('success')
+    except:
+        return HttpResponse('fail')
 
 
 def is_captain(request):

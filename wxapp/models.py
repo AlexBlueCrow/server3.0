@@ -87,11 +87,7 @@ class Adopt(models.Model):
 
 
 class Captain(models.Model):
-    genres = [
-        (0, '全部'),
-        (1, '销售'),
-        (2, '配送')
-    ]
+  
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
     longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
@@ -101,7 +97,9 @@ class Captain(models.Model):
     active = models.BooleanField(default=False)
     dis_name = models.CharField(max_length=20, default='', blank=True)
     time_of_join = models.DateTimeField(default=timezone.now)
-    genre = models.IntegerField(choices=genres, default=0)
+    
+    diliver = models.BooleanField(default=False)
+    marketing = models.BooleanField(default=False)
     commission_m = models.DecimalField(
         max_digits=2, decimal_places=2, default=0)
     commission_d = models.DecimalField(
