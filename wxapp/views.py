@@ -493,10 +493,9 @@ def cap_apply(request):
     longitude = request.GET.get('lng')
     latitude = request.GET.get('lat')
     dis_name = request.GET.get('disName')
-    deliver = request.GET.get('deliver')
-    marketing = request.GET.get('marketing')
+    deliver = request.GET.get('deliver')=='true'
+    marketing = request.GET.get('marketing')=='true'
     user = wxlogin(code)
-
     newcap = Captain.objects.create(
         user=user,
         longitude=longitude,
