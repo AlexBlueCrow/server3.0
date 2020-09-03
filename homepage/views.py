@@ -72,7 +72,7 @@ def Item_update(request):
     if request.method == 'POST':
         item_id = request.POST.get('id')
         item_name = request.POST.get('itemname')
-        category = request.POST.get('class')
+        category = request.POST.get('category')
         price = request.POST.get('price')
         size = request.POST.get('size')
         farmname = request.POST.get('farmname')
@@ -80,14 +80,12 @@ def Item_update(request):
         pic_file = request.FILES.get('pic')
         is_active = request.POST.get('active')
         mode = request.POST.get('mode')
-
+        print(request.body,'---',request.POST)
         # stock and mode to be added
 
         item = Item.objects.get(id=item_id)
         item.name = item_name
         item.category = category
-        item.price = price
-        item.unit = size
         item.status = 1 if is_active else 0
         item.mode = mode
         item.save()
