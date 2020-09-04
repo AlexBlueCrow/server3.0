@@ -106,7 +106,7 @@ class Captain(models.Model):
         max_digits=2, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.name+'/'+self.dis_name
+        return str(self.id)+self.name+'/'+self.dis_name
 
 
 class Order(models.Model):
@@ -162,7 +162,7 @@ class Prepay_Order(models.Model):
         ('adopt', 'adopt'), ('sell', 'sell')],default='sell')
 
     def __str__(self):
-        return str(self.fee)+str(self.varified)+self.out_trade_no
+        return str(self.id)+self.name_rec+str(self.fee)
 
 
 class Varify_failed(models.Model):
