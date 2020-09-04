@@ -191,3 +191,7 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.user_nickname+'-'+self.comment_text
+
+class Text(models.Model):
+    title = models.CharField(max_length=20)
+    content = models.CharField(max_length=200)

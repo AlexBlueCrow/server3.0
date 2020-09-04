@@ -130,13 +130,13 @@ def Item_API(request):
         status = request.POST.get('active')
         farmname = request.POST.get('farmname')
 
-        unit_A = request.POST.get('size_A')
+        unit_A = request.POST.get('unit_A')
         price_A = request.POST.get('price_A')
         guaranteed = request.POST.get('guaranteed')
         benefit = request.POST.get('benefit')
 
         price_S = request.POST.get('price_S')
-        unit_S = request.POST.get('size_S')
+        unit_S = request.POST.get('unit_S')
 
         try:
             farmuser = FarmUser.objects.get(name=farmname)
@@ -196,7 +196,6 @@ def Item_API(request):
             return HttpResponse('农场未创建')
 
     if request.method == 'PUT':
-
         data = JSONParser().parse(request)
         video_file = request.FILES.get('video')
         pic_file = request.FILES.get('pic')
