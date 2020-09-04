@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AppUser, Item, Order, Prepay_Order, Comments, Captain, FarmUser, Sell, Adopt
+from .models import AppUser, Item, Order, Prepay_Order, Comments, Captain, FarmUser, Sell, Adopt,Text
 from homepage.serializers import VIMapSerializer
 class AppUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,4 +57,9 @@ class CaptainSerializer(serializers.ModelSerializer):
 class FarmUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = FarmUser
+        fields = '__all__'
+
+class TextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Text
         fields = '__all__'

@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'getCaptains/', views.getCaptains),
     url(r'cap_apply/', views.cap_apply),
     url(r'is_captain/', views.is_captain),
+    url(r'get_text/',views.get_text)
 ]

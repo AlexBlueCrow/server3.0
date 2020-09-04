@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser
-from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer
+from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text
+from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer
 from homepage.models import Key, VideoFiles, PicFiles, VIMap
 from homepage.serializers import VIMapSerializer
 import random
@@ -483,6 +483,10 @@ def getCaptains(request):
         cap['avatarUrl'] = caps_data[index]['avatarUrl']
     sorteddata = sorted(captains_serializer.data, key=lambda x: x['dis'])
     return JSONResponse(sorteddata)
+
+def get_text(request):
+    text = Text.objects.all()
+    return TextSerializer(text,many=True).data
 
 
 def cap_apply(request):
