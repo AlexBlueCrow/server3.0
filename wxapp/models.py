@@ -162,7 +162,7 @@ class Prepay_Order(models.Model):
         ('adopt', 'adopt'), ('sell', 'sell')],default='sell')
 
     def __str__(self):
-        return str(self.id)+self.name_rec+str(self.fee)
+        return self.name_rec+'----'+str(self.fee)
 
 
 class Varify_failed(models.Model):
