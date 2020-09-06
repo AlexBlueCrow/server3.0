@@ -486,7 +486,9 @@ def getCaptains(request):
 
 def get_text(request):
     text = Text.objects.all()
-    return TextSerializer(text,many=True).data
+    text_serializer = TextSerializer(text,many=true).data
+    print(text_serializer)
+    return text_serializer
 
 
 def cap_apply(request):
