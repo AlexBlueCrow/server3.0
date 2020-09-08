@@ -26,6 +26,7 @@ import random
 import string
 import json
 from homepage.tools import getKeys
+from django.db.models import Min
 
 # Create your views here.
 
@@ -396,7 +397,10 @@ def pay_feedback(request):
         item = Item.objects.get(id=prepay_serializer.data['item_id'])
         user = AppUser.objects.get(openid=prepay_serializer.data['openid'])
         item_serializer = ItemSerializer(item, many=False)
-        cap = Captain.objects.get(id=prepay_serializer.data['captain_id'])
+        try:
+            cap = Captain.objects.get(id=prepay_serializer.data['captain_id'])
+        except:
+            cap = Captain.objects.all().aggregate(Min('id'))
         try:
             new_order = Order.objects.create(
                 num=str(prepay_serializer.data['out_trade_no']),
@@ -486,6 +490,7 @@ def getCaptains(request):
 
 def get_text(request):
     text = Text.objects.all()
+    
     return JSONResponse(TextSerializer(text,many=True).data)
  
 
@@ -532,7 +537,7 @@ def is_captain(request):
     except:
         return JSONResponse({'is_captain': False, 'current_cap': user.current_captain_id})
 
-
+    
 # 用小程序用户code换取openid，返回用户实例
 
 
