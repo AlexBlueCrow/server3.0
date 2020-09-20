@@ -459,8 +459,10 @@ def updateUser(request):
     nickname = request.GET.get('nickname')
     avatarUrl = request.GET.get('avatarUrl')
     user = wxlogin(code=code)
-    user.nickname = nickname
-    user.avatar = avatarUrl
+    if nickname:
+        user.nickname = nickname
+    if avatarUrl: 
+        user.avatar = avatarUrl
     user.save()
 
     return JSONResponse(user.current_captain_id)

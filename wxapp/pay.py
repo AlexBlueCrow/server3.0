@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 
 Mch_id='1056463491'
-Mch_key='qingjiaorenlingshop2019111820000'
+Mch_key='Lianxin3692020092036936936936936'
 appid= 'wx5aff52c0a3a0f7ac'
 
 secret='3c6eb61f23aeff10038a74ff10aedd11'
@@ -15,7 +15,7 @@ secret='3c6eb61f23aeff10038a74ff10aedd11'
 
 #生成签名的函数
 def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_create_ip,total_fee):
-    Mch_key='qingjiaorenlingshop2019111820000'
+    Mch_key='Lianxin3692020092036936936936936'
     ret= {
         
         "appid": appid,
