@@ -37,8 +37,8 @@ class FarmUser(models.Model):
     contact = models.CharField(max_length=20)
     rank = models.IntegerField(default=0)
     short = models.CharField(max_length=20, default='', blank=True)
-    longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
-    latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
+    lng = models.DecimalField(max_digits=8, decimal_places=4, default=0)
+    lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
     def __str__(self):
         return self.name

@@ -2,20 +2,23 @@
 import hashlib
 import datetime
 import xml.etree.ElementTree as ET
+from homepage.models import Key
+from homepage.tools import getKeys
 
 
+key = getKeys()
+appid = key['appid']
+secret = key['secret']
+mch_id = key['mch_id']
+mch_key = key['mch_key']
 
-Mch_id='1056463491'
-Mch_key='Lianxin3692020092036936936936936'
-appid= 'wx5aff52c0a3a0f7ac'
-
-secret='3c6eb61f23aeff10038a74ff10aedd11'
 
 
 
 #生成签名的函数
 def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_create_ip,total_fee):
-    Mch_key='Lianxin3692020092036936936936936'
+    key = getKeys()
+    Mch_key=key['mch_key']
     ret= {
         
         "appid": appid,
@@ -57,19 +60,19 @@ def getWxPayOrdrID():
 
 #获取全部参数信息，封装成xml
 def get_bodyData(openid,client_ip,price):
-
+    key = getKeys()
     body = 'qingjiaofarm_rent'#商品描述
     notify_url = 'https://qingjiao.shop:8000/payOrder/' #支付成功的回调地址  可访问 不带参数
     nonce_str =getNonceStr()#随机字符串
     out_trade_no =getWxPayOrdrID()#商户订单号
     total_fee = int(price) #订单价格 单位是 分
-    print('total_fee:',total_fee)
-    Mch_id='1056463491'
-    Mch_key='qingjiaorenlinggoldfish201911118s'
-    appid= 'wx5aff52c0a3a0f7ac'
-    secret='3c6eb61f23aeff10038a74ff10aedd11'
-
-	
+    
+   
+    key = getKeys()
+    appid = key['appid']
+    secret = key['secret']
+    mch_id = key['mch_id']
+    mch_key = key['mch_key']
 	#获取签名
     sign=paysign(appid,body,Mch_id,nonce_str,notify_url,openid,out_trade_no,client_ip,total_fee)
     print("sign",sign)

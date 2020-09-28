@@ -295,12 +295,24 @@ def Farm_API(request):
     if request.method == 'POST':
         farmname = request.POST.get('farmname')
         address = request.POST.get('address')
+        lng = request.POST.get('lng')
+
+        
+        lat = request.POST.get('lat')
+        lat = round(float(lat),4)
         description = request.POST.get('description')
         phonenumber = request.POST.get('phonenumber')
         contact = request.POST.get('contact')
         farm_type = request.POST.get('type')
+
         fuser = FarmUser.objects.get(name=farmname)
         fuser.address = address
+        if lng:
+            lng = round(float(lng),4)
+            fuser.lng=lng
+        if lat:
+            lat = round(float(lat),4)
+            fuser.lat=lat
         fuser.description = description
         fuser.phonenumber = phonenumber
         fuser.contact = contact
