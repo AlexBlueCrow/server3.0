@@ -89,8 +89,8 @@ class Adopt(models.Model):
 class Captain(models.Model):
   
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
-    longitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
-    latitude = models.DecimalField(max_digits=8, decimal_places=4, default=0)
+    lng = models.DecimalField(max_digits=8, decimal_places=4, default=0)
+    lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     address = models.CharField(max_length=40)
     phonenumber = models.BigIntegerField(blank=False, default=0)
     name = models.CharField(max_length=20, default='', blank=True)
