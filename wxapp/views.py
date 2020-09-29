@@ -99,7 +99,7 @@ def getFarmLocs():
     dic = []
     for farm in farms:
         LocInfo = {'id': farm.id, 'loc': {
-            "lon": farm.longitude, "lat": farm.latitude}}
+            "lon": farm.lng, "lat": farm.lat}}
         dic.append(LocInfo)
     return dic
 
@@ -109,7 +109,7 @@ def getCaptainLocs():
     dic = []
     for cap in captains:
         Locinfo = {'id': cap.id, 'name': cap.name,
-                   'loc': {'lon': cap.longitude, 'lat': cap.latitude}}
+                   'loc': {'lon': cap.lng, 'lat': cap.lat}}
         dic.append(Locinfo)
     return dic
 
@@ -484,7 +484,7 @@ def getCaptains(request):
     Locdic = getCaptainLocs()
     for index, cap in enumerate(captains_serializer.data):
         cap['dis'] = round(getDistance(userlon, userlat, float(
-            cap['longitude']), float(cap['latitude'])), 2)
+            cap['lng']), float(cap['lat'])), 2)
         cap['nickname'] = caps_data[index]['nickname']
         cap['avatarUrl'] = caps_data[index]['avatarUrl']
     sorteddata = sorted(captains_serializer.data, key=lambda x: x['dis'])
@@ -502,16 +502,16 @@ def cap_apply(request):
     name = request.GET.get('name')
     number = request.GET.get('number')
     address = request.GET.get('address')
-    longitude = request.GET.get('lng')
-    latitude = request.GET.get('lat')
+    lng = request.GET.get('lng')
+    lat = request.GET.get('lat')
     dis_name = request.GET.get('disName')
     deliver = request.GET.get('deliver')=='true'
     marketing = request.GET.get('marketing')=='true'
     user = wxlogin(code)
     newcap = Captain.objects.create(
         user=user,
-        longitude=longitude,
-        latitude=latitude,
+        lng=lng,
+        lat=lat,
         address=address,
         phonenumber=number,
         name=name,
