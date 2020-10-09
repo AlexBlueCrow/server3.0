@@ -18,7 +18,7 @@ mch_key = key['mch_key']
 #生成签名的函数
 def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_create_ip,total_fee):
     key = getKeys()
-    Mch_key=key['mch_key']
+    mch_key=key['mch_key']
     ret= {
         
         "appid": appid,
@@ -36,7 +36,7 @@ def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_cr
     #处理函数，对参数按照key=value的格式，并按照参数名ASCII字典序排序
     stringA = '&'.join(["{0}={1}".format(k, ret.get(k))for k in sorted(ret)])
     print('stringA:',stringA)
-    stringSignTemp = '{0}&key={1}'.format(stringA,Mch_key)
+    stringSignTemp = '{0}&key={1}'.format(stringA,mch_key)
     print('Temp:',stringSignTemp)
     sign = hashlib.md5(stringSignTemp.encode("utf-8")).hexdigest()
     print('sign:',sign)
@@ -130,6 +130,6 @@ def get_paysign(prepay_id,timeStamp,nonceStr):
                 'timeStamp':timeStamp
     }
     stringA = '&'.join(["{0}={1}".format(k, pay_data.get(k))for k in sorted(pay_data)])
-    stringSignTemp = '{0}&key={1}'.format(stringA,Mch_key)
+    stringSignTemp = '{0}&key={1}'.format(stringA,mch_key)
     sign = hashlib.md5(stringSignTemp.encode("utf-8")).hexdigest()
     return sign.upper()
