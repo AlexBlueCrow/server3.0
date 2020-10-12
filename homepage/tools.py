@@ -1,6 +1,7 @@
 from .models import Key
 from .serializers import KeySerializer
 import json
+import requests
 
 def getKeys():
     key = Key.objects.get(account='qj')
