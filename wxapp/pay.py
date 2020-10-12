@@ -122,6 +122,8 @@ def dict_to_xml(dict_data):
 
 #获取返回给小程序的paySign
 def get_paysign(prepay_id,timeStamp,nonceStr):
+    key = getKeys()
+    mch_key=key['mch_key']
     pay_data={
                 'appId': appid,
                 'nonceStr': nonceStr,

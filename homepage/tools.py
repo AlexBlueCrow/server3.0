@@ -4,6 +4,13 @@ from .serializers import KeySerializer
 def getKeys():
     key = Key.objects.get(account='qj')
     key_ser = KeySerializer(key,many=False)
-    
-
     return key_ser.data
+ 
+def getAccToken(code):
+    key = getKeys()
+    appid = key['appid']
+    secret = key['secret']
+    AccTokUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + \
+        appid+'&secret='+secret
+    accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
+    return accToken

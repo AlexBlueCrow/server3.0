@@ -25,7 +25,7 @@ from math import radians, cos, sin, asin, sqrt
 import random
 import string
 import json
-from homepage.tools import getKeys
+from homepage.tools import getKeys,getAccToken
 from django.db.models import Min
 
 # Create your views here.
@@ -539,7 +539,19 @@ def is_captain(request):
     except:
         return JSONResponse({'is_captain': False, 'current_cap': user.current_captain_id})
 
-    
+def LiveList(request):
+    code = request.GET.get('code')
+    accToken=getAccToken(code)
+    url = 'https://api.weixin.qq.com/wxa/business/getliveinfo?access_token='+accToken
+    data = {
+    "start": 0, 
+    "limit": 10
+    }
+    r = json.loads(requests.post(
+        url, data=json.dumps(data, ensure_ascii=False).encode()).content)
+
+    print(r)
+    return JSONResponse({'res':r})
 # 用小程序用户code换取openid，返回用户实例
 
 

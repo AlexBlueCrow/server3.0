@@ -87,7 +87,6 @@ class Adopt(models.Model):
 
 
 class Captain(models.Model):
-  
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
     lng = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
@@ -97,14 +96,12 @@ class Captain(models.Model):
     active = models.BooleanField(default=False)
     dis_name = models.CharField(max_length=20, default='', blank=True)
     time_of_join = models.DateTimeField(default=timezone.now)
-    
     deliver = models.BooleanField(default=False)
     marketing = models.BooleanField(default=False)
     commission_m = models.DecimalField(
         max_digits=2, decimal_places=2, default=0)
     commission_d = models.DecimalField(
         max_digits=2, decimal_places=2, default=0)
-
     def __str__(self):
         return str(self.id)+self.name+'/'+self.dis_name
 
