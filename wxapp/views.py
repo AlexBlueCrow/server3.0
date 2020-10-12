@@ -549,8 +549,7 @@ def LiveList(request):
     }
     r = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-
-    print(r)
+    
     return JSONResponse({'res':r})
 # 用小程序用户code换取openid，返回用户实例
 
