@@ -57,11 +57,12 @@ def wxlogin(code):
 
 def get_farms(request):
     farmuser = FarmUser.objects.all()
-    farmuser_serializer = FarmUserSerializer(farmuser, many=True)
+    farmuser_serializer = FarmUserSerializer(farmuser, many=True)   
     return JSONResponse(farmuser_serializer.data)
 
 
 def get_item(request):
+    code = request.GET.get('code')
     items = Item.objects.filter(status=1)
     items_serializer = ItemSerializer(items, many=True)
     # Rearrange by distance
@@ -90,7 +91,18 @@ def get_item(request):
             cover_file_name = str(video.cover).split("/")[-1]
             item['ex_videos'].append(
                 {'video': video_file_name, 'cover': cover_file_name, 'name': video.name})
+    # append live info to item
 
+    accToken=getAccToken(code)
+    url = 'https://api.weixin.qq.com/wxa/business/getliveinfo?access_token='+accToken
+    data = {
+    "start": 0, 
+    "limit": 50
+    }
+    r = json.loads(requests.post(
+        url, data=json.dumps(data, ensure_ascii=False).encode()).content)
+    print(r)
+    
     return JSONResponse(sorteddata)
 
 
@@ -545,7 +557,7 @@ def LiveList(request):
     url = 'https://api.weixin.qq.com/wxa/business/getliveinfo?access_token='+accToken
     data = {
     "start": 0, 
-    "limit": 10
+    "limit": 50
     }
     r = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
