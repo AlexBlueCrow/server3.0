@@ -44,6 +44,7 @@ class FarmUser(models.Model):
         return self.name
 
 
+
 class Item(models.Model):
     # id ++
     states = [(0, 'inactive'), (1, 'active'), (2, 'expire')]
@@ -57,9 +58,15 @@ class Item(models.Model):
     status = models.IntegerField(choices=states, default=0)
     mode = models.IntegerField(choices=modes, default=0)
     effect_time = models.DateTimeField(default=timezone.now)
-
+    
     def __str__(self):
         return str(self.id)+'.'+self.name
+
+class ItemShadow(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    liveitemid = models.IntegerField(default=-1)
+    def __str__(self):
+        return self.item.name+':'+str(self.liveitemid)
 
 
 class Sell(models.Model):
