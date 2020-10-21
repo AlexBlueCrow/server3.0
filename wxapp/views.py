@@ -116,7 +116,7 @@ def get_item(request):
                     pass
                 for item in itemsorted:
                     if item['id']==target.id:
-                        if item['roominfo']:
+                        if item.has_key('roominfo'):
                             if item['roominfo']['start_time']>room['start_time']:
                                 item['roominfo']=room
                         else:
