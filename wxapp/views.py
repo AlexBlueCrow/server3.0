@@ -99,9 +99,11 @@ def get_item(request):
     "start": 0, 
     "limit": 50
     }
-    r = json.loads(requests.post(
-        url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    print(r)
+    # r = json.loads(requests.post(
+    #     url, data=json.dumps(data, ensure_ascii=False).encode()).content)
+
+    res = requests.post(url, data=json.dumps(data, ensure_ascii=False).encode()).content
+    print(res)
     
     
     return JSONResponse(sorteddata)
