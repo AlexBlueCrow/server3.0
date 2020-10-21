@@ -16,3 +16,10 @@ def getAccToken(code):
         appid+'&secret='+secret
     accToken = json.loads(requests.get(AccTokUrl).content)['access_token']
     return accToken
+
+def tryprint(content):
+    try:
+        print(content)
+        return
+    except:
+        return

@@ -25,7 +25,7 @@ from math import radians, cos, sin, asin, sqrt
 import random
 import string
 import json
-from homepage.tools import getKeys,getAccToken
+from homepage.tools import getKeys,getAccToken,tryprint
 from django.db.models import Min
 
 # Create your views here.
@@ -101,7 +101,7 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    print(res['room_info'])
+    r=tryprint(res['room_info'])
 
     return JSONResponse(sorteddata)
 
