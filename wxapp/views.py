@@ -101,8 +101,9 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    r=tryprint(res['room_info'])
-
+    
+    for room in res['room_info']:
+        tryprint(room)
     return JSONResponse(sorteddata)
 
 
