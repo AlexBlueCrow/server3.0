@@ -81,7 +81,8 @@ def get_item(request):
                 farmLat = Loc['loc']['lat']
                 break
         item['dis'] = round(getDistance(userlon, userlat, farmLon, farmLat), 2)
-    sorteddata = sorted(items_serializer.data, key=lambda x: x['dis'])
+    itemsorted = sorted(items_serializer.data, key=lambda x: x['dis'])
+
     for item in sorteddata:
         item['ex_videos'] = []
         links = VIMap.objects.filter(item_id=item['id'])
@@ -109,15 +110,20 @@ def get_item(request):
                 tryprint(gid)
                 try:
                     shadow = ItemShadow.objects.get(goods_id = gid)
-                    tryprint(shadow)
-                    item = shadow.item
-                    tryprint(item)
+                    target = shadow.item
                 except:
+                    tryprint('no match for that id')
                     pass
-                
+                for item in itemsorted:
+                    if item['id']==target.id:
+                        if item['roominfo']:
+                            if item['roominfo']['start_time']>room['start_time']:
+                                item['roominfo']=room
+                        else:
+                            item['roominfo']=room
 
         
-    return JSONResponse(sorteddata)
+    return JSONResponse(itemsorted)
 
 
 def getFarmLocs():
