@@ -99,12 +99,8 @@ def get_item(request):
     "start": 0, 
     "limit": 50
     }
-     res = json.loads(requests.post(
-         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-
-    
-    print(res['room_info'])
-    
+    res = json.loads(requests.post(
+        url, data=json.dumps(data, ensure_ascii=False).encode()).content)
     
     return JSONResponse(sorteddata)
 
