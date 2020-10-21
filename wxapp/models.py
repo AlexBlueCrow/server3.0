@@ -66,7 +66,7 @@ class ItemShadow(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     goods_id = models.IntegerField(default=-1,unique=True)
     def __str__(self):
-        return self.item.name+':'+str(self.liveitemid)
+        return self.item.name+':'+str(self.goods_id)
 
 
 class Sell(models.Model):
