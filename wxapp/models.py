@@ -64,7 +64,7 @@ class Item(models.Model):
 
 class ItemShadow(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    liveitemid = models.IntegerField(default=-1)
+    goods_id = models.IntegerField(default=-1,unique=True)
     def __str__(self):
         return self.item.name+':'+str(self.liveitemid)
 
@@ -75,7 +75,6 @@ class Sell(models.Model):
     price = price = models.DecimalField(
         default=0, max_digits=8, decimal_places=2)
     unit = models.CharField(max_length=15, default='', blank=False)
-
     def __str__(self):
         return 'selling info of %s' % self.item.name
 
