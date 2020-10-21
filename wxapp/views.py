@@ -102,25 +102,25 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    for room in res['room_info']:
-        if room['goods']:
-            for item in room['goods']:
-                tryprint(item)
-                gid = item['goods_id']
-                tryprint(gid)
-                try:
-                    shadow = ItemShadow.objects.get(goods_id = gid)
-                    target = shadow.item
-                except:
-                    tryprint('no match for that id')
-                    pass
-                for item in itemsorted:
-                    if item['id']==target.id:
-                        if item.has_key('roominfo'):
-                            if item['roominfo']['start_time']>room['start_time']:
-                                item['roominfo']=room
-                        else:
-                            item['roominfo']=room
+    # for room in res['room_info']:
+    #     if room['goods']:
+    #         for item in room['goods']:
+    #             tryprint(item)
+    #             gid = item['goods_id']
+    #             tryprint(gid)
+    #             try:
+    #                 shadow = ItemShadow.objects.get(goods_id = gid)
+    #                 target = shadow.item
+    #             except:
+    #                 tryprint('no match for that id')
+    #                 pass
+    #             for item in itemsorted:
+    #                 if item['id']==target.id:
+    #                     if item.has_key('roominfo'):
+    #                         if item['roominfo']['start_time']>room['start_time']:
+    #                             item['roominfo']=room
+    #                     else:
+    #                         item['roominfo']=room
 
         
     return JSONResponse(itemsorted)
