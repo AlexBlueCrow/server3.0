@@ -104,8 +104,8 @@ def get_item(request):
     for room in res['room_info']:
         if room['goods']:
             for item in room['goods']:
-                print(item)
-                gid = room['goods']['goods_id']
+                tryprint(item)
+                gid = item['goods_id']
                 tryprint(gid)
                 try:
                     shadow = ItemShadow.objects.get(goods_id = gid)
