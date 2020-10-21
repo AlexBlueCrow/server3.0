@@ -101,7 +101,8 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    
+    print(res.keys())
+
     return JSONResponse(sorteddata)
 
 
