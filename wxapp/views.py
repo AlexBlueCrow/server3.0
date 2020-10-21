@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text
+from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow
 from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer
 from homepage.models import Key, VideoFiles, PicFiles, VIMap
 from homepage.serializers import VIMapSerializer
@@ -101,9 +101,21 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    
     for room in res['room_info']:
-        tryprint(room)
+        if room['goods']:
+            for item in room['goods']:
+                gid = room['goods']['goods_id']
+                tryprint(gid)
+                try:
+                    shadow = ItemShadow.objects.get(goods_id = gid)
+                    tryprint(shadow)
+                    item = shadow.item
+                    tryprint(item)
+                except:
+                    pass
+                
+
+        
     return JSONResponse(sorteddata)
 
 
