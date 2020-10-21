@@ -103,7 +103,7 @@ def get_item(request):
     #     url, data=json.dumps(data, ensure_ascii=False).encode()).content)
 
     res = requests.post(url, data=json.dumps(data, ensure_ascii=False).encode()).content
-    print(res)
+    print(res.room_info)
     
     
     return JSONResponse(sorteddata)
