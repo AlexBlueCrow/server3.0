@@ -106,7 +106,6 @@ def get_item(request):
         tryprint(room)
         if room['goods']:
             for good in room['goods']:
-                tryprint(item)
                 gid = good['goods_id']
                 tryprint(gid)
                 try:
@@ -121,7 +120,7 @@ def get_item(request):
                                 item['roominfo']=room
                         else:
                             item['roominfo']=room
-                        tryprint(item['roominfo'])
+                        tryprint('roominfo:',item['roominfo'])
 
 
     return JSONResponse(itemsorted)
