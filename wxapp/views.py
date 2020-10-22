@@ -112,18 +112,17 @@ def get_item(request):
                 try:
                     target = ItemShadow.objects.get(goods_id = gid).item
                 except:
-                    
                     pass
                 for item in itemsorted:
                     if item['id']==target.id:
                         if 'rooninfo' in item:
                             if item['roominfo']['start_time']<room['start_time']:
                                 item['roominfo']=room
-                                print(n,'------',item['roominfo'])
+                                # print(n,'------',item['roominfo'])
                                 n+=1
                         else:
                             item['roominfo']=room
-                            print(n,'------',item['roominfo'])
+                            # print(n,'------',item['roominfo'])
                             n+=1
                         
 
