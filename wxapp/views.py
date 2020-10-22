@@ -107,13 +107,12 @@ def get_item(request):
         if room['goods']:
             for good in room['goods']:
                 n=0
-                tryprint(item)
                 gid = good['goods_id']
-                tryprint(gid)
+
                 try:
                     target = ItemShadow.objects.get(goods_id = gid).item
                 except:
-                    tryprint('no match for good'+str(gid)+'that id')
+                    
                     pass
                 for item in itemsorted:
                     if item['id']==target.id:
