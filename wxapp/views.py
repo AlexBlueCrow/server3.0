@@ -113,7 +113,7 @@ def get_item(request):
                     target = ItemShadow.objects.get(goods_id = gid).item
                 except:
                     tryprint('no match for good'+str(gid)+('that id')
-                    break
+                    pass
                 for item in itemsorted:
                     if item['id']==target.id:
                         if item.has_key('roominfo'):
@@ -123,7 +123,7 @@ def get_item(request):
                             item['roominfo']=room
                         tryprint(item['roominfo'])
 
-                        
+
     return JSONResponse(itemsorted)
 
 
