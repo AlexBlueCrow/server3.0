@@ -106,6 +106,7 @@ def get_item(request):
         tryprint(room)
         if room['goods']:
             for good in room['goods']:
+                n=0
                 tryprint(item)
                 gid = good['goods_id']
                 tryprint(gid)
@@ -119,10 +120,13 @@ def get_item(request):
                         if 'rooninfo' in item:
                             if item['roominfo']['start_time']<room['start_time']:
                                 item['roominfo']=room
-                                tryprint(str(item['roominfo']['start_time'])+'---'+str(room['start_time']))
+                                print(n,item['roominfo'])
+                                n+=1
                         else:
                             item['roominfo']=room
-                        tryprint(item['roominfo'])
+                            print(n,item['roominfo'])
+                            n+=1
+                        
 
 
     return JSONResponse(itemsorted)
