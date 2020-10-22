@@ -119,11 +119,11 @@ def get_item(request):
                         if 'rooninfo' in item:
                             if item['roominfo']['start_time']<room['start_time']:
                                 item['roominfo']=room
-                                print(n,item['roominfo'])
+                                print(n,'------',item['roominfo'])
                                 n+=1
                         else:
                             item['roominfo']=room
-                            print(n,item['roominfo'])
+                            print(n,'------',item['roominfo'])
                             n+=1
                         
 
