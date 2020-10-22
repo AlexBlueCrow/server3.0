@@ -119,6 +119,7 @@ def get_item(request):
                         if 'rooninfo' in item:
                             if item['roominfo']['start_time']<room['start_time']:
                                 item['roominfo']=room
+                                tryprint(str(item['roominfo']['start_time'])+'---'+str(room['start_time']))
                         else:
                             item['roominfo']=room
                         tryprint(item['roominfo'])
