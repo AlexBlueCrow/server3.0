@@ -112,7 +112,7 @@ def get_item(request):
                 try:
                     target = ItemShadow.objects.get(goods_id = gid).item
                 except:
-                    tryprint('no match for good'+str(gid)+('that id')
+                    tryprint('no match for good'+str(gid)+'that id')
                     pass
                 for item in itemsorted:
                     if item['id']==target.id:
