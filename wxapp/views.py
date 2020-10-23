@@ -104,11 +104,9 @@ def get_item(request):
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
     for room in res['room_info']:
         tryprint(room)
-        if room['goods']:
+        if room['goods'] and (room['roomid']==101 or room['roomid']==102):
             for good in room['goods']:
-                n=0
                 gid = good['goods_id']
-
                 try:
                     target = ItemShadow.objects.get(goods_id = gid).item
                 except:
@@ -116,14 +114,12 @@ def get_item(request):
                 for item in itemsorted:
                     if item['id']==target.id:
                         if 'rooninfo' in item:
-                            if item['roominfo']['start_time']<room['start_time']:
+                            tryprint('---replace---')
+                            if item['roominfo']['start_time']>room['start_time']:
                                 item['roominfo']=room
-                                # print(n,'------',item['roominfo'])
-                                n+=1
                         else:
                             item['roominfo']=room
-                            # print(n,'------',item['roominfo'])
-                            n+=1
+                            
                         
 
 
