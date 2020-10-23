@@ -104,7 +104,7 @@ def get_item(request):
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
     for room in res['room_info']:
         tryprint(room)
-        if room['goods'] and (room['roomid']==101 or room['roomid']==102):
+        if (room['goods'] and (room['roomid']==101 or room['roomid']==102)):
             for good in room['goods']:
                 gid = good['goods_id']
                 try:
