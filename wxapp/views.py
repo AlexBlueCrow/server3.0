@@ -113,14 +113,14 @@ def get_item(request):
                     pass
                 for item in itemsorted:
                     if item['id']==target.id:
-                        if 'rooninfo' in item:
+                        if 'roominfo' in item:
                             tryprint('---replace---')
                             if item['roominfo']['start_time']>room['start_time']:
                                 item['roominfo']=room
                         else:
                             tryprint('---init---')
                             item['roominfo']=room
-                            
+                    
                         
 
 
