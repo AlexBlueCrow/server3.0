@@ -118,6 +118,7 @@ def get_item(request):
                             if item['roominfo']['start_time']>room['start_time']:
                                 item['roominfo']=room
                         else:
+                            tryprint('---init---')
                             item['roominfo']=room
                             
                         
