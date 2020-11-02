@@ -41,8 +41,7 @@ class FarmUser(models.Model):
     lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
     def __str__(self):
-        return self.name
-
+        return str(self.id)+'.'+self.name
 
 
 class Item(models.Model):
