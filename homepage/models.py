@@ -12,7 +12,7 @@ class AdminUser(AbstractUser):
     role = models.CharField(max_length=20,default='farmuser')
     active = models.BooleanField(default=False)
     def __str__(self):
-      return self.id+'.'+self.username
+      return str(self.id)+'.'+self.username
 
 class Account(models.Model):
     owner = models.ForeignKey(AdminUser,on_delete=models.CASCADE)
