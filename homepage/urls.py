@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
-from . import views,login
+from . import views,login,tcvod
 from django.views.static import serve
 from server.settings  import MEDIA_ROOT
 
@@ -17,6 +17,9 @@ urlpatterns = [
     url(r'farm/',views.Farm_API),
     url(r'Item_update',views.Item_update),
     url(r'video/',views.video_api),
-    url(r'VIMap/',views.VIMap_update)
+    url(r'VIMap/',views.VIMap_update),
+    url(r'tcvsign/',tcvod.TcVSign),
+    url(r'createTcVideo',tcvod.createTcVideo),
+    url(r'tcVideo',tcvod.tcVideo_api),
 ]
 

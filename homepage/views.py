@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt, csrf_protect
 from server.settings import MEDIA_ROOT, MEDIA_URL
-from .models import AdminUser, VideoFiles, PicFiles, VIMap, Key
+from .models import AdminUser, VideoFiles, PicFiles, VIMap, Key,TcVideo,tcVideo2Item
 import jwt
 from rest_framework_jwt.settings import api_settings
 import csv as csvreader
@@ -39,12 +39,13 @@ def order(request):
 def VIMap_update(request):
     itemid = request.POST.get('itemid')
     farmname = request.POST.get('farmname')
-    links = VIMap.objects.filter(item_id=itemid)
     new_ids = []
     old_ids = []
     farm = FarmUser.objects.get(name=farmname)
     item = Item.objects.get(id=itemid)
-    for link in links:
+    # links = VIMap.objects.filter(item_id=itemid)
+    old_links = tcVideo2Item.objects.filter(item=item)
+    for link in old_links:
         old_ids.append(link.video_id)
     i = 0
     while True:
@@ -54,17 +55,15 @@ def VIMap_update(request):
             i += 1
         else:
             break
-    for id in old_ids:
-        if id not in new_ids:
-            link = VIMap.objects.get(item_id=itemid, video_id=id)
+    for link in old_links:
+        if link.video.fileid not in new_ids:
             link.delete()
     for id in new_ids:
         if id not in old_ids:
-            link = VIMap.objects.create(
-                farm=farm,
-                item_id=itemid,
-                video_id=id,
-                name=item.name+'-'+str(id)
+            tcvideo_obj = TcVideo.objects.get(fileid=id)
+            link = tcVideo2Item.objects.create(
+                item=item,
+                video=tcvideo_obj,
             )
     return JSONResponse({'code': 20000, 'data': {'msg': '更新成功'}, })
 
@@ -123,12 +122,15 @@ def Item_update(request):
 @csrf_exempt
 def Item_API(request):
     if request.method == 'POST':
-
-        video_file = request.FILES.get('video')
-        pic_file = request.FILES.get('pic')
+        
+        # video_file = request.FILES.get('video')
+        # pic_file = request.FILES.get('pic')
+        fileid = request.POST.get('fileId')
+        print('fId:',fileid)
         item_name = request.POST.get('itemname')
         category = request.POST.get('class')
-        mode = request.POST.get('mode')
+        mode = request.POST.get('selling_mode')
+        print('mode:',mode)
         status = request.POST.get('active')
         farmname = request.POST.get('farmname')
 
@@ -144,28 +146,34 @@ def Item_API(request):
             farmuser = FarmUser.objects.get(name=farmname)
         except:
             return HttpResponse('该农场不在系统中，请先创建农场')
+        try:
+            video_obj = TcVideo.objects.get(fileid = fileid)
+        except:
+            print('视频关联失败')
+            return HttpResponse('视频关联失败')
+
         # rename files with farm_name and item_name
-        pic_pf = pic_file.name.split('.')[-1]
-        video_pf = video_file.name.split('.')[-1]
-        identifier = farmuser.name+'--'+item_name
-        pic_file.name = identifier+'.'+pic_pf
-        video_file.name = identifier+'.'+video_pf
-        new_video = VideoFiles.objects.create(
-            name=video_file.name,
-            farmid=farmuser.id,
-            video=video_file,
-        )
-        new_pic = PicFiles.objects.create(
-            name=pic_file.name,
-            farmid=farmuser.id,
-            pic=pic_file
-        )
+        # pic_pf = pic_file.name.split('.')[-1]
+        # video_pf = video_file.name.split('.')[-1]
+        # identifier = farmuser.name+'--'+item_name
+        # pic_file.name = identifier+'.'+pic_pf
+        # video_file.name = identifier+'.'+video_pf
+        # new_video = VideoFiles.objects.create(
+        #     name=video_file.name,
+        #     farmid=farmuser.id,
+        #     video=video_file,
+        # )
+        # new_pic = PicFiles.objects.create(
+        #     name=pic_file.name,
+        #     farmid=farmuser.id,
+        #     pic=pic_file
+        # )
         item = Item.objects.create(
             name=item_name,
             owner=farmuser,
             category=category,
-            video_address=str(new_video.video).split("/")[-1],
-            pic_address=str(new_pic.pic).split("/")[-1],
+            video_address=video_obj.video_url,
+            pic_address=video_obj.cover_url,
             mode=mode,
             status=status
         )
@@ -373,3 +381,4 @@ def video_api(request):
             return JSONResponse({'code': 20000, 'msg': '上传成功'})
         except:
             return JSONResponse({'code': 20000, 'msg': '上传失败，请尝试重命名视频文件'})
+

@@ -1,5 +1,5 @@
 from django.contrib  import admin
-from .models import AdminUser,VideoFiles,PicFiles,VIMap,Key
+from .models import AdminUser,VideoFiles,PicFiles,VIMap,Key,TcVideo,tcVideo2Item
 # Register your models here.
 
-admin.site.register([AdminUser,VideoFiles,PicFiles,VIMap,Key])
+admin.site.register([AdminUser,VideoFiles,PicFiles,VIMap,Key,TcVideo,tcVideo2Item])

@@ -10,8 +10,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow
 from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer
-from homepage.models import Key, VideoFiles, PicFiles, VIMap
-from homepage.serializers import VIMapSerializer
+from homepage.models import Key, VideoFiles, PicFiles, VIMap,tcVideo2Item,TcVideo
+from homepage.serializers import VIMapSerializer,tcVideo2ItemSerializer,TcVideoSerializer
 import random
 import time
 import xml.etree.ElementTree as ET
@@ -82,6 +82,18 @@ def get_item(request):
                 break
         item['dis'] = round(getDistance(userlon, userlat, farmLon, farmLat), 2)
     itemsorted = sorted(items_serializer.data, key=lambda x: x['dis'])
+     
+
+     ##append ex_video from tcvideo
+    # for item in itemsorted:
+    #     item['ex_videos'] = []
+    #     links = tcVideo2Item.objects.filter(item_id=item['id'])
+    #     for link in links:
+    #         video = link.video
+    #         item['ex_videos'].append(
+    #             {'video': video.video_url, 'cover': video.cover_url, 'name': video.video_name }
+    #         )
+    # append ex video
 
     for item in itemsorted:
         item['ex_videos'] = []
@@ -92,8 +104,9 @@ def get_item(request):
             cover_file_name = str(video.cover).split("/")[-1]
             item['ex_videos'].append(
                 {'video': video_file_name, 'cover': cover_file_name, 'name': video.name})
+    
+    
     # append live info to item
-
     accToken=getAccToken(code)
     url = 'https://api.weixin.qq.com/wxa/business/getliveinfo?access_token='+accToken
     data = {
@@ -171,7 +184,6 @@ def get_orderInfo(request):
             order['item_name'] = item.name
             order['effect_time'] = order['effect_time'][0:10]
             order['image'] = item.pic_address
-
         return JSONResponse(orders_serializer.data)
     except:
         return HttpResponse("无有效订单")

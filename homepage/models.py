@@ -14,6 +14,46 @@ class AdminUser(AbstractUser):
     def __str__(self):
       return str(self.id)+'.'+self.username
 
+class Role(models.Model):
+    name = models.CharField(max_length = 32)
+
+
+class Permission(models.Model):
+    name = models.CharField(max_length = 32)
+    url = models.CharField(max_length = 128)
+
+class Action(models.Model):
+    name = models.CharField(max_length = 32)
+    code = models.CharField(max_length = 32)
+
+class Menu(models.Model):
+    title = models.CharField(max_length =32)
+    parent = models.ForeignKey('self',blank=True,on_delete=models.CASCADE)
+
+
+class Permission2Action(models.Model):
+    permission = models.ForeignKey(Permission,on_delete=models.CASCADE)
+    action = models.ForeignKey(Action,on_delete=models.CASCADE)
+    parent = models.ForeignKey(Menu,on_delete=models.CASCADE)
+
+class Permission2Action2Role(models.Model):
+    p2a = models.ForeignKey(Permission,on_delete=models.CASCADE)
+    role = models.ForeignKey(Role,on_delete=models.CASCADE)
+
+
+class TcVideo(models.Model):
+    fileid = models.CharField(max_length=32,unique =True, primary_key=True)
+    video_name = models.CharField(max_length = 32)
+    video_url = models.CharField(max_length = 256)
+    cover_url = models.CharField(max_length = 256)
+    farmuser = models.ForeignKey(FarmUser,on_delete=models.CASCADE)
+    time_created = models.DateTimeField(default= timezone.now)
+    def __str__(self):
+        return self.video_name+'.'+self.farmuser.name
+
+
+    
+
 class Account(models.Model):
     owner = models.ForeignKey(AdminUser,on_delete=models.CASCADE)
     num = models.DecimalField(default=0,max_digits=8,decimal_places=2)
@@ -44,6 +84,11 @@ class PicFiles(models.Model):
 
     def __str__(self):
         return str(self.id)+self.itemname
+
+class tcVideo2Item(models.Model):
+    item = models.ForeignKey(Item,on_delete=models.CASCADE)
+    video = models.ForeignKey(TcVideo,on_delete=models.CASCADE)
+    
 
 class VIMap(models.Model):
     name = models.CharField(max_length = 50,default='')
