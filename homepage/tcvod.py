@@ -4,7 +4,7 @@ import hmac
 import hashlib
 import base64
 from wxapp.views import JSONResponse
-from .models import TcVideo
+from .models import TcVideo,Key,Code
 from .serializers import TcVideoSerializer
 from wxapp.models import Item,FarmUser
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt, csrf_protect
@@ -12,8 +12,11 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt, csrf_p
 
 def TcVSign(request):
 
-    SecretId = 'AKIDoP1mJadAcliRu5mlkX1DDy7fw1rS9tkL'
-    SecretKey = '6zhVCcnjQrzqVvgFadQyEG5kA9tNZYhb'
+   
+
+    SecretId = Code.objects.get(name = 'tcSecretId').key
+    
+    SecretKey = Code.objects.get(name = 'tcSecretKey').key
     
     TimeStamp = int(time.time())
     ExpireTime = TimeStamp + 86400 * 90 * 10

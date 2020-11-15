@@ -109,5 +109,8 @@ class Key(models.Model):
     mch_id = models.CharField(max_length = 50,default='')
     mch_key = models.CharField(max_length = 50,default='')
 
+class Code(models.Model):
+    name = models.CharField(max_length = 48)
+    key = models.CharField(max_length = 256)
         
 
