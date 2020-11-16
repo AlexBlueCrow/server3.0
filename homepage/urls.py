@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'tcvsign/',tcvod.TcVSign),
     url(r'createTcVideo',tcvod.createTcVideo),
     url(r'tcVideo',tcvod.tcVideo_api),
+    url(r'callback',tcvod.callback)
 ]
 
