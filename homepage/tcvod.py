@@ -11,18 +11,16 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt, csrf_p
 
 
 def TcVSign(request):
-
    
 
     SecretId = Code.objects.get(name = 'tcSecretId').key
-    
     SecretKey = Code.objects.get(name = 'tcSecretKey').key
     
     TimeStamp = int(time.time())
     ExpireTime = TimeStamp + 86400 * 90 * 10
     Random = random.randint(0, 999999)
 
-    Original = "secretId=" + SecretId + "&currentTimeStamp=" + str(TimeStamp) + "&expireTime=" + str(ExpireTime) + "&random=" + str(Random)
+    Original = "secretId=" + SecretId + "&currentTimeStamp=" + str(TimeStamp) + "&expireTime=" + str(ExpireTime) + "&random=" + str(Random) + "&procedure=" + "standard-1080"
     Hmac = hmac.new(bytes(SecretKey, 'utf-8'), bytes(Original, 'utf-8'), hashlib.sha1)
     Sha1 = Hmac.digest()
     Signature = bytes(Sha1) + bytes(Original, 'utf-8')
