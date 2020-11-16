@@ -83,6 +83,18 @@ def callback(request):
     json_str = json_str.decode()
     json_data = json.loads(json_str)
     print(json_data)
+    fielid = json_data['ProcedureStateChangeEven']['FileId']
+    print(json_data['ProcedureStateChangeEven']['FileId'],json_data['ProcedureStateChangeEven']['FileUrl'])
+    newUrl = json_data['ProcedureStateChangeEven']['FileUrl']
+    try:
+        tcvideo_obj = TcVideo.objects.get(fileid = fielid)
+    except:
+        new = TcVideo.objects.create(
+            fileid = fielid
+        )
+        tcvideo_obj = TcVideo.objects.get(fileid = fielid)
+    tcvideo_obj.video_url = newUrl
+            
     return JSONResponse({'code': 20000,'msg':'success'})
 
 
