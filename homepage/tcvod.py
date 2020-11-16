@@ -3,6 +3,7 @@ import random
 import hmac
 import hashlib
 import base64
+import json
 from wxapp.views import JSONResponse
 from .models import TcVideo,Key,Code
 from .serializers import TcVideoSerializer
@@ -78,7 +79,11 @@ def videolist(request):
 @csrf_exempt
 def callback(request):
     print(request.body)
-    return 
+    json_str = request.body
+    json_str = json_str.decode()
+    json_data = json.loads(json_str)
+    print(json_data)
+    return JSONResponse({'code': 20000,'msg':'success'})
 
 
 
