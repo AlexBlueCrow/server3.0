@@ -75,8 +75,7 @@ def videolist(request):
 
     return JSONResponse({'code': 20000, 'data':serialized.data ,'msg':'获取视频列表成功'})
 
-# @csrf_exempt
-
+@csrf_exempt
 def callback(request):
     print(request.body)
     return 
