@@ -85,6 +85,7 @@ def callback(request):
    
     fielid = json_data['ProcedureStateChangeEvent']['FileId']
     newUrl = json_data["ProcedureStateChangeEvent"]['MediaProcessResultSet'][0]["TranscodeTask"]['Output']['Url']
+    print(newUrl)
     try:
         tcvideo_obj = TcVideo.objects.get(fileid = fielid)
     except:
@@ -93,6 +94,7 @@ def callback(request):
         )
         tcvideo_obj = TcVideo.objects.get(fileid = fielid)
     tcvideo_obj.video_url = newUrl
+    tcvideo_obj.save()
             
     return JSONResponse({'code': 20000,'msg':'success'})
 
