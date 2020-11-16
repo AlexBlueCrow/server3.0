@@ -64,7 +64,7 @@ def createTcVideo(request):
         )
         return JSONResponse({'code': 20000, 'data': {'msg': '视频登录成功'}, })
     except:
-        print('createfailed')
+     
         return JSONResponse({'code': 20000, 'data': {'msg': '视频记录失败',}, })
     
 def videolist(request):
@@ -72,22 +72,19 @@ def videolist(request):
     farmname = request.GET.get('farmname')
     video_list = TcVideo.objects.all()
     serialized = TcVideoSerializer(video_list,many = True)
-    print(serialized.data)
+    
 
     return JSONResponse({'code': 20000, 'data':serialized.data ,'msg':'获取视频列表成功'})
 
 @csrf_exempt
 def callback(request):
-    print(request.body)
+    
     json_str = request.body
     json_str = json_str.decode()
     json_data = json.loads(json_str)
-    print(json_data)
+   
     fielid = json_data['ProcedureStateChangeEvent']['FileId']
-    for item in json_data:
-        print(item)
-    
-    newUrl = json_data["ProcedureStateChangeEvent"]['MediaProcessResultSet']["TranscodeTask"]['Output']['Url']
+    newUrl = json_data["ProcedureStateChangeEvent"]['MediaProcessResultSet'][0]["TranscodeTask"]['Output']['Url']
     try:
         tcvideo_obj = TcVideo.objects.get(fileid = fielid)
     except:
