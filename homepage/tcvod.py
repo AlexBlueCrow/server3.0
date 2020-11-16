@@ -87,7 +87,7 @@ def callback(request):
     for item in json_data:
         print(item)
     
-    newUrl = json_data['MediaProcessResultSet']['Output']['Url']
+    newUrl = json_data["ProcedureStateChangeEvent"]['MediaProcessResultSet']["TranscodeTask"]['Output']['Url']
     try:
         tcvideo_obj = TcVideo.objects.get(fileid = fielid)
     except:
