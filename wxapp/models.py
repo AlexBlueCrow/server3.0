@@ -39,7 +39,7 @@ class FarmUser(models.Model):
     short = models.CharField(max_length=20, default='', blank=True)
     lng = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
-
+    commission_rate = models.PositiveIntegerField(default = 25)
     def __str__(self):
         return str(self.id)+'.'+self.name
 
@@ -57,6 +57,7 @@ class Item(models.Model):
     status = models.IntegerField(choices=states, default=0)
     mode = models.IntegerField(choices=modes, default=0)
     effect_time = models.DateTimeField(default=timezone.now)
+    commission_rate = models.PositiveIntegerField(default = 25)
     
     def __str__(self):
         return str(self.id)+'.'+self.name
@@ -134,6 +135,7 @@ class Order(models.Model):
     nickname = models.CharField(max_length=20, default='',null=True,blank=True)
     post_sign = models.CharField(max_length=40, default='',null=True,blank=True)
     cap = models.ForeignKey(Captain,on_delete=models.PROTECT,default='',null=True)
+    commission_rate = models.PositiveIntegerField(default = 25)
     def __str__(self):
         return self.user.nickname+'--'+str(self.price_paid)+'--'+self.item.name+'--'+str(self.captain_id)
 
@@ -162,7 +164,7 @@ class Prepay_Order(models.Model):
     post_sign = models.CharField(max_length=40, default='',null=True)
     genre = models.CharField(max_length=10, choices=[
         ('adopt', 'adopt'), ('sell', 'sell')],default='sell')
-
+    commission_rate = models.PositiveIntegerField(default = 25)
     def __str__(self):
         return self.name_rec+'----'+str(self.fee)
 

@@ -370,6 +370,7 @@ def weChatPay(request):
     openid = user.openid
 
     NOTIFY_URL = 'https://qingjiao.shop:8000/server/pay_feedback'
+    item_obj = Item.objects.get(id = item_id)
     wepy_order = WeChatPay(appid=appid, sub_appid=appid,
                            api_key=mch_key, mch_id=mch_id)
     out_trade_no = pay.getWxPayOrdrID()
@@ -380,6 +381,7 @@ def weChatPay(request):
         notify_url=NOTIFY_URL,
         user_id=openid,
         out_trade_no=out_trade_no,
+        
     )
 
     # print("------pay_res",pay_res)
@@ -404,10 +406,10 @@ def weChatPay(request):
         phone_num=str(phone_num),
         name_rec=name_rec,
         captain_id=captain_id,
-
         nickname=nickname,
         post_sign=post_sign,
-        genre=genre
+        genre=genre,
+        commission_rate = item.commission_rate,
     )
 
     user.current_captain_id = captain_id
@@ -463,6 +465,7 @@ def pay_feedback(request):
                 genre=prepay.genre,
                 nickname=prepay.nickname,
                 post_sign=prepay.post_sign,
+                commission_rate = prepay.commission_rate
             )
             comment = Comments.objects.create(
                 user=user,
