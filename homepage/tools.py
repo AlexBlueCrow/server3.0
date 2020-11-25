@@ -23,3 +23,4 @@ def tryprint(content):
         return
     except:
         return
+

@@ -40,6 +40,7 @@ class FarmUser(models.Model):
     lng = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     lat = models.DecimalField(max_digits=8, decimal_places=4, default=0)
     commission_rate = models.PositiveIntegerField(default = 25)
+    
     def __str__(self):
         return str(self.id)+'.'+self.name
 

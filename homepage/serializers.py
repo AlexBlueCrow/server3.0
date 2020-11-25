@@ -1,51 +1,67 @@
 from rest_framework import serializers
-from .models import AdminUser,VideoFiles,PicFiles,VIMap,Account,Transact,Key,TcVideo,tcVideo2Item
-
+from . import models
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AdminUser
+        model = models.AdminUser
+        fields = '__all__'
+
+class BankInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BankInfo
         fields = '__all__'
 
 class TcVideoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TcVideo
+        model = models.TcVideo
         fields = '__all__'
 
 class VideoFilesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VideoFiles
+        model = models.VideoFiles
         fields = '__all__'
 
 class PicFilesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PicFiles
+        model = models.PicFiles
         fields = '__all__'
 
 class VIMapSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VIMap
+        model = models.VIMap
         fields = '__all__'
 class tcVideo2ItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = tcVideo2Item
+        model = models.tcVideo2Item
         fields = '__all__'
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Account
+        model = models.Account
+        fields = '__all__'
+
+class PlatformAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PlatformAccount
         fields = '__all__'
 
 class TransactSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Transact
+        model = models.Transact
+        fields = '__all__'
+
+class CashingRequestSerializer(serializers.ModelSerializer):
+    owner = serializers.CharField(source='account.owner.farminfo.name')
+    bankinfo =  BankInfoSerializer(source = 'account.owner.bankinfo')
+    class Meta:
+        model = models.CashingRequest
         fields = '__all__'
 
 class KeySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Key
+        model = models.Key
         fields = '__all__'
 
 class VIMapSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VIMap
+        model = models.VIMap
         fields = '__all__'

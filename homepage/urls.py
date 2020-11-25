@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
-from . import views,login,tcvod
+from . import views,login,tcvod,finance
 from django.views.static import serve
 from server.settings  import MEDIA_ROOT
 
@@ -21,6 +21,12 @@ urlpatterns = [
     url(r'tcvsign/',tcvod.TcVSign),
     url(r'createTcVideo',tcvod.createTcVideo),
     url(r'tcVideo',tcvod.tcVideo_api),
-    url(r'callback',tcvod.callback)
+    url(r'callback',tcvod.callback),            ##dealwith callback form tcVideo
+    url(r'financeInfo',finance.financeInfo),     ##GET PUT POST DELETE
+    url(r'cashingRequest',finance.cashingRequest_API),
+    url(r'casReqUpdate',finance.casReqUpdate),
+    url(r'bankInfo',views.bankInfo_API),
+    url(r'financeSummary', finance.summary),
+    url(r'expense',finance.expense)
 ]
 

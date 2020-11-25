@@ -8,7 +8,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from .models import AdminUser
+from .models import AdminUser,BankInfo
 import jwt
 from rest_framework_jwt.settings import api_settings
 from rest_framework.authtoken.models import Token
@@ -44,6 +44,11 @@ def register(request):
         )
         token = Token.objects.create(user=new)
         token.save()
+
+        bank = bankInfo.objects.create(
+            owner = new
+        )
+
         
         return HttpResponse('注册成功')
     except:
@@ -76,8 +81,9 @@ def userInfo(request):
         except:
             return HttpResponse('身份验证失败')
         user = AdminUser.objects.get(id=token_obj.user_id)
-      
+
         user_ser = AdminUserSerializer(user).data
+        user_ser.pop('password')
         
         return JSONResponse({'code':20000,'data':user_ser})
 

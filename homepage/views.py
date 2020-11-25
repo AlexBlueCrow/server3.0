@@ -7,13 +7,13 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt, csrf_protect
 from server.settings import MEDIA_ROOT, MEDIA_URL
-from .models import AdminUser, VideoFiles, PicFiles, VIMap, Key,TcVideo,tcVideo2Item
+from .models import AdminUser, VideoFiles, PicFiles, VIMap, Key,TcVideo,tcVideo2Item,BankInfo
 import jwt
 from rest_framework_jwt.settings import api_settings
 import csv as csvreader
 from rest_framework.authtoken.models import Token
 from wxapp.views import JSONResponse
-from .serializers import AdminUserSerializer, VideoFilesSerializer, PicFilesSerializer, VIMapSerializer, KeySerializer
+from .serializers import AdminUserSerializer, VideoFilesSerializer, PicFilesSerializer, VIMapSerializer, KeySerializer,BankInfoSerializer
 from django.utils import timezone
 # Create your views here.
 
@@ -300,11 +300,11 @@ def Farm_API(request):
             return JSONResponse({'code': 20000, 'data': farm_serializer.data,'msg':'获取成功'})
         except:
             return JSONResponse({'code': 404, 'msg':'农场未创建'})
+
     if request.method == 'POST':
         farmname = request.POST.get('farmname')
         address = request.POST.get('address')
         lng = request.POST.get('lng')
-
         
         lat = request.POST.get('lat')
         lat = round(float(lat),4)
@@ -382,3 +382,55 @@ def video_api(request):
         except:
             return JSONResponse({'code': 20000, 'msg': '上传失败，请尝试重命名视频文件'})
 
+
+
+@csrf_exempt
+def bankInfo_API(request):
+    if request.method == 'GET':
+        
+        username = request.GET.get('username')
+        user_obj = AdminUser.objects.get(name=username)
+        if user_obj.role == 'manager':
+            farmname = request.GET.get('farmname')
+            print(farmname)
+            farm = FarmUser.objects.get(name=farmname)
+            user_obj = AdminUser.objects.get(farminfo = farm)
+        try:
+            bank_obj = BankInfo.objects.get(owner = user_obj)
+            
+        except:
+            new = BankInfo.objects.create(
+                owner = user_obj
+            )
+            new.save()
+            bank_obj = BankInfo.objects.get(owner = user_obj)
+        bankinfo_ser = BankInfoSerializer(bank_obj,many=False)
+        return JSONResponse({'code': 20000, 'data': bankinfo_ser.data,'msg':'获取成功'})
+
+    if request.method == 'POST':
+        
+        username = request.POST.get('username')
+        bankname = request.POST.get('bankname')
+        banknum  = request.POST.get('banknum')
+        receiver = request.POST.get('receiver')
+   
+        user_obj = AdminUser.objects.get(name=username)
+
+        try:
+            bank_obj = BankInfo.objects.get(owner = user_obj)
+            
+        except:
+            new = BankInfo.objects.create(
+                owner = user_obj
+            )
+            new.save()
+            bank_obj = BankInfo.objects.get(owner = user_obj)
+        bank_obj.bankname = bankname
+        bank_obj.banknum  = banknum
+     
+        bank_obj.receiver = receiver
+        bank_obj.save()
+        bankinfo_ser = BankInfoSerializer(bank_obj,many=False)
+        return JSONResponse({'code': 20000, 'data': bankinfo_ser.data,'msg':'更新成功'})
+
+        

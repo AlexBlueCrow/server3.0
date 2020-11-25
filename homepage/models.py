@@ -5,16 +5,30 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 
+
+
 class AdminUser(AbstractUser):
+    roles = [('farmuser','farmuser'),('manager','manager'),('admin','admin')]
     phonenumber = models.BigIntegerField(blank=True,default=0,unique=True)
     farm = models.CharField(max_length=30,default='',blank=True)
     name = models.CharField(max_length=20)
-    role = models.CharField(max_length=20,default='farmuser')
+    role = models.CharField(max_length=20,default='farmuser',choices= roles )
     active = models.BooleanField(default=True)
+    farminfo = models.ForeignKey(FarmUser,on_delete=models.PROTECT,null = True)
+    bankinfo = models.ForeignKey('BankInfo',on_delete=models.PROTECT,null=True)
     def __str__(self):
       return str(self.id)+'.'+self.username
 
+
+class BankInfo(models.Model):
+    owner = models.ForeignKey(AdminUser,on_delete=models.CASCADE,null = False,related_name='bankInfo')
+    banknum = models.CharField(max_length = 48,default = '')
+    receiver = models.CharField(max_length = 24)
+    bankname = models.CharField(max_length = 48)
+
+
  ####   models related to permission 
+
 class Role(models.Model):
     name = models.CharField(max_length = 32)
 
@@ -71,24 +85,31 @@ class Account(models.Model):
     owner = models.ForeignKey(AdminUser,on_delete=models.CASCADE)
     amount = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     extractable = models.DecimalField(default=0,max_digits=8,decimal_places=2)
-    bankAccountNum = models.BigIntegerField(blank=True,null=True)
+    def __str__(self):
+        return self.owner.username
+    
+class PlatformAccount(Account):
 
+    def __str__(self):
+        
+        return self.owner.username
 
 class Transact(models.Model):
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
     time = models.DateTimeField(default= timezone.now)
     amount = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     genre = models.IntegerField(choices=[(-1,'expense'),(1,'income')])
-    msg = models.CharField(max_length = 200)
+    msg = models.CharField(max_length = 200,default = '', null = True)
+
 
 class CashingRequest(models.Model):
-    status = [(0,'待审核'),(1,'待办'),(2,'办理中'),(3,'完成')]
+    status = [(0,'待审核'),(1,'待办'),(2,'办理中'),(3,'完成'),(4,'关闭')]
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
-    time = models.DateTimeField(default= timezone.now)
+    time = models.DateTimeField(default = timezone.now)
+    time_done = models.DateTimeField(null = True)
     amount = models.DecimalField(default=0,max_digits=8,decimal_places=2)
     msg = models.CharField(max_length = 200)
     status = models.IntegerField(choices = status)
-
 
 
 
