@@ -351,6 +351,7 @@ def weChatPay(request):
     code = request.GET.get('code')
     genre = request.GET.get('genre')
     item_id = request.GET.get('item_id')
+    item = Item.objects.get(id= item_id)
     item_name = request.GET.get('item_name')
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
