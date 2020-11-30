@@ -87,38 +87,33 @@ def financeInfo(request):
 
 @csrf_exempt
 def cashingRequest_API(request):
-    
     if request.method=='GET':
         username = request.GET.get('username')
         user = AdminUser.objects.get(username=username)
-        
+
         if user.role == 'farmuser':
             account = Account.objects.get(owner = user)
             acc_data = AccountSerializer(account ,many = False).data
-            cashings = CashingRequest.objects.filter(account = account)
+            cashings = CashingRequest.objects.filter(account = account).order_by('-time')
             cas_ser = CashingRequestSerializer(cashings,many = True).data
             return JSONResponse({'code': 20000, 'data':{ 'accountInfo':acc_data, 'reqInfo':cas_ser } ,'msg':'获取列表成功'})
+            
         elif user.role == 'manager':
             account = Account.objects.get(owner = user)
             acc_data = AccountSerializer(account ,many = False).data
-            cas_req = CashingRequest.objects.filter(status__in = [0,1,2] )
+            cas_req = CashingRequest.objects.filter(status__in = [0,1,2] ).order_by('-time')
             cas_req_data = CashingRequestSerializer(cas_req,many=True).data
-            cas_done = CashingRequest.objects.filter(status__in = [3,4] )
+            cas_done = CashingRequest.objects.filter(status__in = [3,4] ).order_by('-time')
             cas_done_data = CashingRequestSerializer(cas_done,many=True).data
             return JSONResponse({'code': 20000, 'data':{ 'accountInfo':acc_data, 'reqInfo':cas_req_data ,'reqDone': cas_done_data } ,'msg':'获取列表成功'})
-
 
     if request.method=='POST':
         username = request.POST.get('username')
         amount = decimal.Decimal(request.POST.get('amount'))
-        
         msg = request.POST.get('msg')
-        
         user = AdminUser.objects.get(username=username)
         account = Account.objects.get(owner = user)
         new_req = creCasReq(user,amount,msg)
-        
-
         if new_req:
             new_req_ser = CashingRequestSerializer(new_req,many=False).data
             return JSONResponse({'code': 20000, 'data':{'reqInfo':new_req_ser } ,'msg':'success'})

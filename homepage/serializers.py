@@ -50,8 +50,9 @@ class TransactSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CashingRequestSerializer(serializers.ModelSerializer):
-    owner = serializers.CharField(source='account.owner.farminfo.name')
+    
     bankinfo =  BankInfoSerializer(source = 'account.owner.bankinfo')
+    owner = serializers.CharField(source='account.owner.farminfo.name')
     class Meta:
         model = models.CashingRequest
         fields = '__all__'
