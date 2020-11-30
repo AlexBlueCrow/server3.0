@@ -23,9 +23,7 @@ import decimal
 
 def creCasReq(user,amount,msg):
     account = Account.objects.get(owner = user)##
-
     if account.extractable < amount:
-        
         return False
     else:
         try:
@@ -35,15 +33,15 @@ def creCasReq(user,amount,msg):
                 msg = msg,
                 status = 0,
             )
-           
             account.extractable -=amount
             account.save()
             return new_req
         except:
-            
             return False
 
 def comCasReq(casReq):
+    casReq.time_done = timezone.now()
+    casReq.save()
     account = casReq.account
     trans = Transact.objects.create(
         account = account,
@@ -76,7 +74,6 @@ def refuseReq(casReq):
 @api_view(['GET'])
 @authentication_classes([])
 def financeInfo(request):
-    
     username = request.GET.get('username')
     user_obj = AdminUser.objects.get(username = username)
     account_obj = Account.objects.get(owner = user_obj)
@@ -97,7 +94,7 @@ def cashingRequest_API(request):
             cashings = CashingRequest.objects.filter(account = account).order_by('-time')
             cas_ser = CashingRequestSerializer(cashings,many = True).data
             return JSONResponse({'code': 20000, 'data':{ 'accountInfo':acc_data, 'reqInfo':cas_ser } ,'msg':'获取列表成功'})
-            
+
         elif user.role == 'manager':
             account = Account.objects.get(owner = user)
             acc_data = AccountSerializer(account ,many = False).data
@@ -107,7 +104,7 @@ def cashingRequest_API(request):
             cas_done_data = CashingRequestSerializer(cas_done,many=True).data
             return JSONResponse({'code': 20000, 'data':{ 'accountInfo':acc_data, 'reqInfo':cas_req_data ,'reqDone': cas_done_data } ,'msg':'获取列表成功'})
 
-    if request.method=='POST':
+    if request.method == 'POST':
         username = request.POST.get('username')
         amount = decimal.Decimal(request.POST.get('amount'))
         msg = request.POST.get('msg')
@@ -125,11 +122,9 @@ def cashingRequest_API(request):
 def casReqUpdate(request):
     reqId = request.POST.get('reqId')
     new_status = request.POST.get('newstatus')
-    
     req_obj = CashingRequest.objects.get(id = reqId)
-   
     if new_status =='3':
-        comCasReq(req_obj)  
+        comCasReq(req_obj)
     if new_status =='4':
         refuseReq(req_obj)
     req_obj.status = int(new_status)
@@ -141,17 +136,11 @@ def casReqUpdate(request):
 def summary(request):
     account = PlatformAccount.objects.get()
     Acc_data = PlatformAccountSerializer(account,many = False).data
-    req_todo = CashingRequest.objects.filter(status__in =[1,2,3]).count()
-
+    req_todo = CashingRequest.objects.filter(status__in =[0,1,2]).count()
     latest = Transact.objects.filter(account = account,genre=1).order_by('-time')[:30]
     lat_data = TransactSerializer(latest,many=True).data
 
     return JSONResponse({'code': 20000, 'data':{'AccountInfo':Acc_data, 'todo':str(req_todo), 'latest':lat_data } ,'msg':'success'})
-
-
-
-
-        
 
 @csrf_exempt
 def expense(request):
