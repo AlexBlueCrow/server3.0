@@ -25,7 +25,7 @@ def creCasReq(user,amount,msg):
     account = Account.objects.get(owner = user)##
 
     if account.extractable < amount:
-        print('not enough left')
+        
         return False
     else:
         try:
@@ -35,12 +35,12 @@ def creCasReq(user,amount,msg):
                 msg = msg,
                 status = 0,
             )
-            print('new',new_req)
+           
             account.extractable -=amount
             account.save()
             return new_req
         except:
-            print('fail to create')
+            
             return False
 
 def comCasReq(casReq):
@@ -113,11 +113,11 @@ def cashingRequest_API(request):
         amount = decimal.Decimal(request.POST.get('amount'))
         
         msg = request.POST.get('msg')
-        print('----------',username,amount,msg)
+        
         user = AdminUser.objects.get(username=username)
         account = Account.objects.get(owner = user)
         new_req = creCasReq(user,amount,msg)
-        print(new_req)
+        
 
         if new_req:
             new_req_ser = CashingRequestSerializer(new_req,many=False).data
@@ -132,7 +132,7 @@ def casReqUpdate(request):
     new_status = request.POST.get('newstatus')
     
     req_obj = CashingRequest.objects.get(id = reqId)
-    print(new_status,new_status in ['0','1','2'])
+   
     if new_status =='3':
         comCasReq(req_obj)  
     if new_status =='4':
