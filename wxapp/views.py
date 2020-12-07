@@ -607,7 +607,7 @@ def get_questions(request):
     cate = request.GET.get('cate')
     print(cate)
     questions = Question.objects.filter(category = cate)
-    data = QuestionSerializer(questions).data
+    data = QuestionSerializer(questions,many=True).data
     print(data)
     try:
         
