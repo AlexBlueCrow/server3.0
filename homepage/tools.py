@@ -18,9 +18,13 @@ def getAccToken(code):
     return accToken
 
 def tryprint(content):
-    try:
-        print(content)
-        return
-    except:
+    on = False
+    if on:
+        try:
+            print(content)
+            return
+        except:
+            return
+    else:
         return
 
