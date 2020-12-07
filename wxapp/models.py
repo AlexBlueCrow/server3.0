@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
+from homepage.models import AdminUser
 
 
 # Create your models here.
@@ -203,3 +204,16 @@ class Text(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Question(models.Model):
+    choices=[('A','A'),('B','B'),('C','C'),('D','D')]
+    text = models.CharField(max_length = 128)
+    grade = models.IntegerField(default=1)
+    category = models.CharField(max_length = 32)
+    option_A = models.CharField(max_length = 32)
+    option_B = models.CharField(max_length = 32)
+    option_C = models.CharField(max_length = 32)
+    option_D = models.CharField(max_length = 32)
+    correct_anwser = models.CharField(max_length = 8,choices = choices)
+    uploader = models.CharField(max_length = 16, default = '')

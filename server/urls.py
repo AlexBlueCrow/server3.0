@@ -10,6 +10,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'server/',include('wxapp.urls')),
     url(r'api/',include(api_urls)), 
-    url(r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^favicon.ico$', RedirectView.as_view(url=r'static/img/favicon.ico')),  
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 ]

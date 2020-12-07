@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow
-from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer
+from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow,Question
+from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer,QuestionSerializer
 from homepage.models import Key, VideoFiles, PicFiles, VIMap,tcVideo2Item,TcVideo
 from homepage.serializers import VIMapSerializer,tcVideo2ItemSerializer,TcVideoSerializer
 import random
@@ -603,7 +603,21 @@ def LiveList(request):
 # 用小程序用户code换取openid，返回用户实例
 
 
-# def get_questions():
+def get_questions:
+    cate = requests.GET.get('cate')
+    try:
+        questions = Question.objcets.filter(category = cate)
+        data = QuestionSerializer(questions).data
+        length = data.len()
+        if length<=5:
+            return JSONResponse({'data':data,'msg':'successs'})
+        else:
+            selected = random.sample(data, 5)
+            return JSONResponse({'data':selected,'msg':'successs'})
+    except:
+        return JSONResponse({'data':'','msg':'no_data'})
+    
+
 
 
 # def data_response():
