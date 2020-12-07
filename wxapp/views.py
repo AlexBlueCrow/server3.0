@@ -605,6 +605,7 @@ def LiveList(request):
 
 def get_questions(request):
     cate = request.GET.get('cate')
+    tryprint(cate)
     try:
         questions = Question.objcets.filter(category = cate)
         data = QuestionSerializer(questions).data
