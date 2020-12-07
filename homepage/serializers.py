@@ -66,8 +66,3 @@ class VIMapSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.VIMap
         fields = '__all__'
-
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Question
-        fields = '__all__'

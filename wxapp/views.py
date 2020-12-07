@@ -603,7 +603,7 @@ def LiveList(request):
 # 用小程序用户code换取openid，返回用户实例
 
 
-def get_questions:
+def get_questions(request):
     cate = requests.GET.get('cate')
     try:
         questions = Question.objcets.filter(category = cate)

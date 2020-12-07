@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'cap_apply/', views.cap_apply),
     url(r'is_captain/', views.is_captain),
     url(r'getText/',views.get_text),
-    url(r'liveList',views.LiveList)
+    url(r'liveList',views.LiveList),
+    url(r'getQuestions/',views.get_questions)
+
 ]
