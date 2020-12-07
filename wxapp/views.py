@@ -609,7 +609,9 @@ def get_questions(request):
     try:
         questions = Question.objcets.filter(category = cate)
         data = QuestionSerializer(questions).data
+        print(data)
         length = data.len()
+        print(length)
         if length<=5:
             return JSONResponse({'data':data,'msg':'successs'})
         else:
