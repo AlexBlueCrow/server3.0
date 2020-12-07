@@ -610,10 +610,10 @@ def get_questions(request):
         data = QuestionSerializer(questions,many=True).data
         length = len(data)
         if length<=5:
-            return JSONResponse({'data':data,'msg':'successs'})
+            return JSONResponse({'data':data,'msg':'success'})
         else:
             selected = random.sample(data, 5)
-            return JSONResponse({'data':selected,'msg':'successs'})
+            return JSONResponse({'data':selected,'msg':'success'})
     except:
         return JSONResponse({'data':'','msg':'no_data'})
     
