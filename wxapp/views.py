@@ -605,12 +605,12 @@ def LiveList(request):
 
 def get_questions(request):
     cate = request.GET.get('cate')
-    tryprint(cate)
-    
+    print(cate)
+    questions = Question.objects.filter(category = cate)
+    data = QuestionSerializer(questions).data
+    print(data)
     try:
-        questions = Question.objects.filter(category = cate)
-        data = QuestionSerializer(questions).data
-        print(data)
+        
         length = data.len()
         print(length)
         if length<=5:
