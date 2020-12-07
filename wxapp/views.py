@@ -605,20 +605,15 @@ def LiveList(request):
 
 def get_questions(request):
     cate = request.GET.get('cate')
-    print(cate)
-    questions = Question.objects.filter(category = cate)
-    data = QuestionSerializer(questions,many=True).data
-    print(data)
-    length = data.len()
-    print(length)
-    if length<=5:
-        return JSONResponse({'data':data,'msg':'successs'})
-    else:
-        selected = random.sample(data, 5)
-        return JSONResponse({'data':selected,'msg':'successs'})
     try:
-        pass
-    
+        questions = Question.objects.filter(category = cate)
+        data = QuestionSerializer(questions,many=True).data
+        length = len(data)
+        if length<=5:
+            return JSONResponse({'data':data,'msg':'successs'})
+        else:
+            selected = random.sample(data, 5)
+            return JSONResponse({'data':selected,'msg':'successs'})
     except:
         return JSONResponse({'data':'','msg':'no_data'})
     
