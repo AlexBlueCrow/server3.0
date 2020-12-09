@@ -59,6 +59,7 @@ class Item(models.Model):
     mode = models.IntegerField(choices=modes, default=0)
     effect_time = models.DateTimeField(default=timezone.now)
     commission_rate = models.PositiveIntegerField(default = 25)
+    max_cut = models.IntegerField(default = 0)
     
     def __str__(self):
         return str(self.id)+'.'+self.name
