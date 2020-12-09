@@ -214,5 +214,5 @@ class Question(models.Model):
     option_B = models.CharField(max_length = 32)
     option_C = models.CharField(max_length = 32)
     option_D = models.CharField(max_length = 32)
-    correct_anwser = models.CharField(max_length = 8,choices = choices)
+    correct_answer = models.CharField(max_length = 8,choices = choices)
     uploader = models.CharField(max_length = 16, default = '')
