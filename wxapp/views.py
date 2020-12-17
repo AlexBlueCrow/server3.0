@@ -411,6 +411,7 @@ def weChatPay(request):
         post_sign=post_sign,
         genre=genre,
         commission_rate = item.commission_rate,
+        
     )
 
     user.current_captain_id = captain_id
