@@ -52,9 +52,11 @@ INSTALLED_APPS = [
     'werkzeug_debugger_runserver',
     'django_extensions',
     'corsheaders',
+    
+    
+    'djcelery',
     'homepage.apps.HomepageConfig',
     'wxapp.apps.WxappConfig',
-    'djcelery'
     
 ]
 
@@ -72,7 +74,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'server.urls'
-CSRF_COOKIE_SECURE = True,
+CSRF_COOKIE_SECURE = False,
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -98,7 +100,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'QJdata',
+        'NAME': 'Qj_server3',
         'USER':'havefunz',
         'PASSWORD':'phantomthief+1s',
         'HOST':'sh-cdb-f3ktpy6k.sql.tencentcdb.com',

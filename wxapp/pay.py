@@ -6,11 +6,11 @@ from homepage.models import Key
 from homepage.tools import getKeys
 
 
-key = getKeys()
-appid = key['appid']
-secret = key['secret']
-mch_id = key['mch_id']
-mch_key = key['mch_key']
+# key = getKeys()
+# appid = key['appid']
+# secret = key['secret']
+# mch_id = key['mch_id']
+# mch_key = key['mch_key']
 
 
 
@@ -20,7 +20,6 @@ def paysign(appid,body,mch_id,nonce_str,notify_url,openid,out_trade_no,spbill_cr
     key = getKeys()
     mch_key=key['mch_key']
     ret= {
-        
         "appid": appid,
         "body": body,
         "mch_id":mch_id,
