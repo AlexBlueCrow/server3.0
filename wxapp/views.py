@@ -115,25 +115,28 @@ def get_item(request):
     }
     res = json.loads(requests.post(
         url, data=json.dumps(data, ensure_ascii=False).encode()).content)
-    for room in res['room_info']:
-        tryprint(room)
-        if (room['goods'] and (room['live_status']==101 or room['live_status']==102)):
-            for good in room['goods']:
-                gid = good['goods_id']
-                try:
-                    target = ItemShadow.objects.get(goods_id = gid).item
-                except:
-                    pass
-                for item in itemsorted:
-                    if item['id']==target.id:
-                        if 'roominfo' in item:
-                            tryprint('---replace---')
-                            if item['roominfo']['start_time']>room['start_time']:
+    print(res)
+    try:
+        for room in res['room_info']:
+            tryprint(room)
+            if (room['goods'] and (room['live_status']==101 or room['live_status']==102)):
+                for good in room['goods']:
+                    gid = good['goods_id']
+                    try:
+                        target = ItemShadow.objects.get(goods_id = gid).item
+                    except:
+                        pass
+                    for item in itemsorted:
+                        if item['id']==target.id:
+                            if 'roominfo' in item:
+                                tryprint('---replace---')
+                                if item['roominfo']['start_time']>room['start_time']:
+                                    item['roominfo']=room
+                            else:
+                                tryprint('---init---')
                                 item['roominfo']=room
-                        else:
-                            tryprint('---init---')
-                            item['roominfo']=room
-                    
+    except:
+        pass       
                         
 
 
