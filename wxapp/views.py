@@ -518,8 +518,7 @@ def updateUser(request):
         user.avatar = avatarUrl
     user.save()
 
-    return JSONResponse(user.current_captain_id)
-
+    return JSONResponse({'msg': 'updateSuc', 'userId': user.openid})
 
 def getCaptains(request):
     userlon = float(request.GET.get('lon'))

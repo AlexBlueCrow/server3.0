@@ -20,12 +20,23 @@ class AppUser(models.Model):
     membership = models.IntegerField(default=0)
     region = models.CharField(max_length=50, default='')
     current_captain_id = models.IntegerField(blank=True, default=-1)
+   
 
     def __str__(self):
         if self.nickname == '':
             return '未授权:'+self.openid[0:3]
         return self.nickname
 
+class RewardAccount(models.Model):
+    user = models.ForeignKey(AppUser,on_delete=models.CASCADE)
+    ammount = models.IntegerField(default = 0)
+
+class RewardRecords(models.Model):
+    account = models.ForeignKey(RewardAccount,on_delete=models.CASCADE)
+    ammount = models.IntegerField(default = 0)
+    msg = models.CharField(max_length = 128, blank = True, default = '')
+    time = models.DateTimeField(default=timezone.now)
+    buyer = models.ForeignKey(AppUser,blank = True,null = True,on_delete=models.CASCADE)
 
 class FarmUser(models.Model):
     
@@ -61,6 +72,7 @@ class Item(models.Model):
     commission_rate = models.PositiveIntegerField(default = 25)
     max_cut = models.IntegerField(default = 0)
     
+
     def __str__(self):
         return str(self.id)+'.'+self.name
 
