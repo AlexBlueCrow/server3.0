@@ -529,7 +529,7 @@ def allorder(request):
 
 
 def updateUser(request):
-    print('-----suc----')
+    
     code = request.GET.get('code')
     nickname = request.GET.get('nickname')
     avatarUrl = request.GET.get('avatarUrl')
