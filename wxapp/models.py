@@ -179,9 +179,13 @@ class Prepay_Order(models.Model):
     genre = models.CharField(max_length=10, choices=[
         ('adopt', 'adopt'), ('sell', 'sell')],default='sell')
     commission_rate = models.PositiveIntegerField(default = 25)
+    shareId  = models.CharField(
+        max_length=50, default='')
+    shareReward = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    reward = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     def __str__(self):
         return self.name_rec+'----'+str(self.fee)
-
+    
 
 class Varify_failed(models.Model):
     out_trade_no = models.CharField(

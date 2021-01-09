@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow,Question
+from .models import AppUser, Item, Order, Comments, Prepay_Order, Varify_failed, Captain, FarmUser,Text,ItemShadow,Question,RewardAccount,RewardRecords
 from .serializers import AppUserSerializer, ItemSerializer, OrderSerializer, CommentsSerializer, Prepay_OrderSerializer, CaptainSerializer, FarmUserSerializer,TextSerializer,QuestionSerializer
 from homepage.models import Key, VideoFiles, PicFiles, VIMap,tcVideo2Item,TcVideo
 from homepage.serializers import VIMapSerializer,tcVideo2ItemSerializer,TcVideoSerializer
@@ -350,7 +350,8 @@ def weChatPay(request):
     secret = key['secret']
     mch_id = key['mch_id']
     mch_key = key['mch_key']
-
+    shareId = key['shareId']
+    shareReward = key['shareReward']
     code = request.GET.get('code')
     genre = request.GET.get('genre')
     item_id = request.GET.get('item_id')
@@ -414,6 +415,9 @@ def weChatPay(request):
         post_sign=post_sign,
         genre=genre,
         commission_rate = item.commission_rate,
+        shareId = shareId,
+        shareReward = shareReward,
+        reward = reward,
         
     )
 
@@ -472,6 +476,7 @@ def pay_feedback(request):
                 post_sign=prepay.post_sign,
                 commission_rate = prepay.commission_rate
             )
+            
             comment = Comments.objects.create(
                 user=user,
                 comment_text='我刚刚买了'+item.item_name+'!',
@@ -480,7 +485,24 @@ def pay_feedback(request):
                 user_nickname=user.nickname,
                 genre=2,
             )
+            shareId = prepay.shareId
+            shareReward = prepay.shareReward
+            reward = prepay.reward
+            if (len(shareId)> 0):
+                if shareReward>reward:
+                    shareUser = AppUser.objects.get(openid = shareId)
 
+                    account = RewardAccount.objects.get_or_create(user = shareUser)
+                    account = RewardAccount.objects.get(user = shareUser)
+                    rew_rec = RewardRecords.objects.create(
+                        account = account,
+                        amount = shareReward - reward,
+                        msg = '分享购买红包',
+                        buyer = user,
+                    )
+                    account.amount = account.amount + rew_rec.amount
+                    account.save()
+                    rew_rec.save()
         #print('order created:',new_order)
             prepay.varified = True
             prepay.save()
@@ -507,7 +529,7 @@ def allorder(request):
 
 
 def updateUser(request):
-
+    print('-----suc----')
     code = request.GET.get('code')
     nickname = request.GET.get('nickname')
     avatarUrl = request.GET.get('avatarUrl')
@@ -518,7 +540,7 @@ def updateUser(request):
         user.avatar = avatarUrl
     user.save()
 
-    return JSONResponse({'msg': 'updateSuc', 'userId': user.openid})
+    return JSONResponse({'msg': 'updateSuc', 'userId': user.openid})    
 
 def getCaptains(request):
     userlon = float(request.GET.get('lon'))
