@@ -95,16 +95,26 @@ def get_item(request):
     #         )
     # append ex video
 
+    # for item in itemsorted:
+    #     item['ex_videos'] = []
+    #     links = VIMap.objects.filter(item_id=item['id'])
+    #     for link in links:
+    #         video = VideoFiles.objects.get(id=link.video_id)
+    #         video_file_name = str(video.video).split("/")[-1]
+    #         cover_file_name = str(video.cover).split("/")[-1]
+    #         item['ex_videos'].append(
+    #             {'video': video_file_name, 'cover': cover_file_name, 'name': video.name})
     for item in itemsorted:
         item['ex_videos'] = []
-        links = VIMap.objects.filter(item_id=item['id'])
+        # itemid = item['id']
+        # item_obj = Item.objects.get(id=itemid)
+        links = tcVideo2Item.objects.filter(item=item['id'])
         for link in links:
-            video = VideoFiles.objects.get(id=link.video_id)
-            video_file_name = str(video.video).split("/")[-1]
-            cover_file_name = str(video.cover).split("/")[-1]
+            video = link.video
+            video_url = video.video_url
+            cover_url = video.cover_url
             item['ex_videos'].append(
-                {'video': video_file_name, 'cover': cover_file_name, 'name': video.name})
-    
+                {'video': video_url, 'cover': cover_url, 'name': video.video_name})
     
     # append live info to item
     accToken=getAccToken(code)
