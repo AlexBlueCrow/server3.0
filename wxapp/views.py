@@ -360,8 +360,7 @@ def weChatPay(request):
     secret = key['secret']
     mch_id = key['mch_id']
     mch_key = key['mch_key']
-    shareId = key['shareId']
-    shareReward = key['shareReward']
+    
     code = request.GET.get('code')
     genre = request.GET.get('genre')
     item_id = request.GET.get('item_id')
@@ -370,6 +369,8 @@ def weChatPay(request):
     item_price = request.GET.get('item_price')
     num_buy = int(request.GET.get('num_buy'))
     reward = request.GET.get('reward')
+    shareId = request.GET.get('shareId')
+    shareReward = request.GET.get('shareReward')
 
     nickname = request.GET.get('nickname')
     post_sign = request.GET.get('post_sign')
@@ -496,6 +497,7 @@ def pay_feedback(request):
                 genre=2,
             )
             shareId = prepay.shareId
+
             shareReward = prepay.shareReward
             reward = prepay.reward
             if (len(shareId)> 0):
